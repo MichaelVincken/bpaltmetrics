@@ -29,7 +29,7 @@ $column_array = retrieve_columns($network_name.'_person',$con);
  
 //Building query_string        
 $query_string = "'{$pId}', Curdate()";
-for ($i = 3; $i < count($column_array); $i++) {
+for ($i = 2; $i < count($column_array); $i++) {
     $query_string = $query_string . ",'{$result_array[$column_array[$i]]}'";
 }
 $table_name = $network_name."_person";
@@ -53,9 +53,9 @@ Please wait while searching next network.
     <input type="hidden" value="<?php echo urlencode(serialize($network_array))?>" name="networks" />
             
 </form>
-<script language = "JavaScript">
+ <script language = "JavaScript">
 document.auto_form.submit();
 </script> 
-            
+           
         
 <?php include('footer.php')?>
