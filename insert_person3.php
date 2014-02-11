@@ -3,31 +3,35 @@ $page_title = "Insert Person";
 require_once('login.php');
 require_once('menu.php');
 require_once('database.php');
-        
+
+//getting information from POST        
 $firstname =  mysql_real_escape_string($_POST["firstname"]);
 $lastname =  mysql_real_escape_string($_POST["lastname"]);
 $url = mysql_real_escape_string($_POST["url"]);
 $result_string =  mysql_real_escape_string($_POST["result"]);
 $result_array = unserialize(urldecode($result_string));
+
+//Get the right pId or make a new "person"
 $person_array = select_person($firstname,$lastname,$con);
 $pId = $person_array[0]["pId"];
-        
+
+
+//Specifics for the current network.        
 $network_string =  mysql_real_escape_string($_POST["networks"]);
 $network_array = unserialize(urldecode($network_string));
 $network_name = array_shift($network_array)[0];      
-        
+
+//Insert URL in database for current network
+insert_url($pId,$network_name,$url,$con);
+
+//column_array has all fields/metrics of the current network        
 $column_array = retrieve_columns($network_name.'_person',$con);  
-        
-$query_string = "'{$pId}', '{$url}', Curdate()";
+ 
+//Building query_string        
+$query_string = "'{$pId}', Curdate()";
 for ($i = 3; $i < count($column_array); $i++) {
     $query_string = $query_string . ",'{$result_array[$column_array[$i]]}'";
 }
-//var_dump($query_string);
-//var_dump($column_array);
-//var_dump($result_array);
-//var_dump($network_name);
-//var_dump($network_array);
-        
 $table_name = $network_name."_person";
 $query = "INSERT INTO {$table_name} VALUES ({$query_string})" ;
                 
@@ -36,10 +40,12 @@ try {
     echo "Person succesfully inserted in the database.";
 } catch (Exception $e) {
     echo "Person has already been inserted in the database.";
-}   
+}
+
 ?>
         
 <br/>
+<!-- Form to get information to next page.-->
 Please wait while searching next network.
 <form name="auto_form" action="insert_person2.php" method="post">
     <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
