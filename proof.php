@@ -50,10 +50,9 @@
         ?>
         <h2> Proof of concept: parrallell coordinates van manueel verzamelde citatiegegevens.</h2>
         <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.5.0"></script>
-            <script type="text/javascript" src="http://mbostock.github.com/d3/d3.csv.js?2.5.0"></script>
             <script type="text/javascript">
             //padding en canvasgrootte
-            var m = [30, 10, 10, 10],
+            var m = [30, 10, 10, 50],
             w = 960 - m[1] - m[3],
             h = 500 - m[0] - m[2];
 
@@ -76,10 +75,18 @@
 
                 // Extract the list of dimensions and create a scale for each.
                 x.domain(dimensions = d3.keys(proof[0]).filter(function(d) {
-                    return d != "Professoren" && (y[d] = d3.scale.linear()
+                    if(d == "name") {
+                        y[d] = d3.scale.ordinal()
+                        .domain(proof.map(function(p) {return p[d];}))
+                        .rangePoints([h,0]);
+                    } 
+                    
+                    else {(y[d] = d3.scale.linear()
                     .domain(d3.extent(proof, function(p) { return +p[d]; }))
                     .range([h, 0]));
-                }));
+                    }
+                    return true;
+            }));
 
                 // Add grey background lines for context.
                 background = svg.append("svg:g")
