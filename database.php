@@ -91,7 +91,8 @@ function insert_url($pId,$network_name,$url,$con) {
     }   
 }
 
-function get_all_metrics($con){
+//checks all tables of all networks for all metrics that can be compared:: have two or more occurences.
+function get_all_comparable_metrics($con) {
     $network_names = array();
     $network_names = retrieve_networks($con);
     var_dump($network_names);
@@ -114,8 +115,7 @@ function get_all_metrics($con){
             break;
         }
     }
-    
-    
+        
     return $return_array;
         
 }

@@ -111,10 +111,11 @@ if ($urls == null) {
 
                     <?php
                 
-                    echo "</td>"; 
-                    echo "</tr>";
+                echo "</td>"; 
+                echo "</tr>";
                 }
         }
+        echo "</tbody>";
 }
 
             
