@@ -48,7 +48,7 @@
             include('login.php');
             include('menu.php');    
         ?>
-        <h2> Proof of concept: parrallell coordinates van manueel verzamelde citatiegegevens.</h2>
+        <h2> Proof of concept: parrallel coordinates van manueel verzamelde citatiegegevens.</h2>
         <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.5.0"></script>
             <script type="text/javascript">
             //padding en canvasgrootte

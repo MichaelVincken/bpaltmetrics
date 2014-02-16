@@ -5,16 +5,19 @@ include('database.php');
 
 ?>
 <h3>Select the Metric you want to use to visualize the database.</h3>
-<form action='visualize.php' method='post'>
+<form action='visualisation_db_end.php' method='post'>
     <select name="metric">
         <?php
-        foreach(get_all_comparable_metrics($con) as $metric) {
+        $metrics = get_all_comparable_metrics($con);
+        foreach($metrics as $metric) {
             echo "<option value='".$metric."'>".ucwords(str_replace("_"," ",$metric))."</option>";
         }
         ?>
-        <input type="hidden" value="<?php echo $metrics ?>" name="metrics" />
-        <input type="submit" value="Select"/>
-    </select>
+    </select></br>
+    <input type="checkbox" name="include_missing">Include people with missing values.</br>
+    <input type="hidden" value="<?php echo urlencode(serialize($metrics)) ?>" name="metrics" />
+    <input type="submit" value="Select"/>
+    
 </form>
 
 <?php include('footer.php') ?>

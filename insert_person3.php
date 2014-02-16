@@ -19,7 +19,7 @@ $pId = $person_array[0]["pId"];
 //Specifics for the current network.        
 $network_string =  mysql_real_escape_string($_POST["networks"]);
 $network_array = unserialize(urldecode($network_string));
-$network_name = array_shift($network_array)[0];      
+$network_name = array_shift($network_array);      
 
 //Insert URL in database for current network
 insert_url($pId,$network_name,$url,$con);

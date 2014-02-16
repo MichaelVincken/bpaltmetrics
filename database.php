@@ -37,7 +37,7 @@ function retrieve_networks($con) {
     $result = mysqli_query($con,$query) or die("Cannot execute query. ".mysqli_error($con));
     $returnarray = array();
     while($row = mysqli_fetch_array($result)) {
-        array_push($returnarray,$row);
+        array_push($returnarray,$row[0]);
     }
     
     return $returnarray;
@@ -95,10 +95,9 @@ function insert_url($pId,$network_name,$url,$con) {
 function get_all_comparable_metrics($con) {
     $network_names = array();
     $network_names = retrieve_networks($con);
-    var_dump($network_names);
     $metrics_array = array();
     foreach ($network_names as $network) {
-        $retrieved_columns = retrieve_columns($network[0]."_person",$con);
+        $retrieved_columns = retrieve_columns($network."_person",$con);
         for($i=3;$i < count($retrieved_columns); $i++) {
             array_push($metrics_array, $retrieved_columns[$i]);
         }     
@@ -120,4 +119,81 @@ function get_all_comparable_metrics($con) {
         
 }
 
+function retrieve_persons($con) {
+    $query = "SELECT pId, name, lastName FROM person";
+    $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
+    $resultarray = array();
+    while($row = mysqli_fetch_array($result)) {
+        array_push($resultarray,$row);
+    }
+    return $resultarray;
+}
+
+/*
+*   $con
+*   $metric ex. citations
+*   $left_join: perform left join? => keep person with missing value or not
+*/
+function parallel($con,$metric,$left_join) {
+    $array = array();
+    $networks = retrieve_networks($con);
+    //MAke strings to be connected for the query. 3 parts: SELECT, JOIN (keep people with missing values) and WHERE
+    foreach($networks as $network) {
+        if(in_array($metric,retrieve_columns($network."_person",$con))) {
+            $array[$network."_select"] = $network."_person". ".pId, ". $network."_person.`".$metric."` as `".$network."`";
+            $array[$network."_join"] = $network."_person on person.pId = ".$network."_person.pId";
+            $array[$network."_where"] = $network."_person.Date >= ALL(SELECT Date FROM ".$network."_person WHERE ".$network."_person.pId = person.pID)";
+        }     
+    }
+    $select = "SELECT person.pId, person.name as firstname, person.lastname, ";
+    $join = "";
+    $where = "WHERE ";
+    $select_array = array();
+    $where_array = array();
+    foreach($networks as $network) {
+        if(in_array($metric,retrieve_columns($network."_person",$con))) {
+            array_push($select_array,$array[$network."_select"]);
+            array_push($where_array,$array[$network."_where"]);
+        }
+    }
+    $select = $select.implode(", ",$select_array);
+    $where = $where.implode(" AND ",$where_array);
+    if($left_join) {
+        foreach($networks as $network) {
+            if(in_array($metric,retrieve_columns($network."_person",$con))) {
+                $join = $join."LEFT JOIN ".$array[$network."_join"]." ";
+            }
+        }
+    } else {
+        foreach($networks as $network) {
+            if(in_array($metric,retrieve_columns($network."_person",$con))) {
+                $join = $join."JOIN ".$array[$network."_join"]." ";
+            }
+        }
+    }
+    //make everything into one giant query.
+    $query = $select." FROM person ".$join." ".$where;
+    $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
+    $resultarray = array();
+    while($row = mysqli_fetch_array($result)) {
+        array_push($resultarray,$row);
+    }
+    //Only return data that is needed.
+    $return_array = array();
+    foreach($resultarray as $result) {
+        $array = array();
+        $array["name"] = $result["firstname"]. " ".$result["lastname"] ;
+        foreach($networks as $network) {
+            if(in_array($metric,retrieve_columns($network."_person",$con))) {
+            $array[$network] = $result[$network];
+        }
+        }
+        array_push($return_array,$array);
+    }
+    
+    return $return_array;
+    
+    
+        
+}
 ?>

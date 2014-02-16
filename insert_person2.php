@@ -24,7 +24,7 @@ if (count($network_array) == 0) {
     <?php
 } else {
     //Getting data for the next network.
-    $network_name = $network_array[0][0];
+    $network_name = $network_array[0];
     $urls = call_user_func_array($network_name.'_scrape'.'::search_person',array($firstname,$lastname));
             
     $column_array = retrieve_columns($network_name.'_person',$con);
