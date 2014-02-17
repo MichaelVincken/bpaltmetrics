@@ -58,6 +58,55 @@ class microsoft_scrape {
         return $return_array;
     }
     
+    public static function search_papers($url) {
+        include_once("simple_html_dom.php");
+        //include_once("PQLite.php");
+        $url = "http://academic.research.microsoft.com/Author/1406490/erik-duval?query=erik%20duval";
+        preg_match("/Author\/(.*)\//", $url, $matches);
+        $id = $matches[1];
+        //new url for documents of this person
+        $url = "http://academic.research.microsoft.com/Detail?entitytype=2&searchtype=2&id=".$id;
+       
+       
+        $html = file_get_html("ErikDuval.html");
+        
+        $ret = $html->find('.page-navigator a');
+        $array = array();
+        $array[0] = $html;
+        for($i = 1; $i < count($ret); $i ++) {
+            $ur = html_entity_decode("http://academic.research.microsoft.com".$ret[$i-1]->href);
+            $html = file_get_html($ur);
+            $array[$i] = $html;
+        }
+        
+        $article_array = array();
+        foreach($array as $html) {
+            echo "finding </br>";
+            $ret = $html->find('h3 a');
+            echo "found ".count($ret);
+            $i = 1;
+            while($i < count($ret)) {
+                $element = array();
+                $element["url"] = $ret[$i]->href;
+                $element["title"] = $ret[$i] ->plaintext;
+                if(preg_match("/citations:\s(.*)/",$ret[$i+1]->plaintext,$matches)==TRUE) {
+                    $element["citations"] = $matches[1];
+                    $i = $i+2;
+                } else {
+                    $element["citations"] = 0;
+                    $i++;
+                }
+               
+                
+                
+                array_push($article_array,$element);
+            
+        }
+        
+        return $article_array;
+     }   
+    }
+    
 }
 
 class google_scrape {
@@ -170,6 +219,8 @@ class citeseer_scrape {
 //http://scholar.google.com/citations?hl=en&view_op=search_authors&mauthors=matthijs+van+leeuwen
 //var_dump(google_scrape::search_person("matthijs","van leeuwen"));
 
+//Microsoft
+var_dump(microsoft_scrape::search_papers("/"));
 
 ?>
 

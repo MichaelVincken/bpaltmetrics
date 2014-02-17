@@ -1,7 +1,6 @@
 <style type="text/css" media="all">
    @import "parallel.css";
 </style>
-<?php echo $data_location?>
 <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.5.0"></script>
     <script type="text/javascript">
     //padding en canvasgrootte

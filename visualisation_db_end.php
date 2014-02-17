@@ -5,9 +5,7 @@ include('database.php');
 
 $metrics = unserialize(urldecode($_POST["metrics"]));
 $metric = mysql_real_escape_string($_POST["metric"]);
-var_dump($metric);
 $include_missing=isset($_POST['include_missing']);
-var_dump($include_missing);
 ?>
 <h3>Change parameter.</h3>
 <form action='visualisation_db_end.php' method='post'>
@@ -23,7 +21,7 @@ var_dump($include_missing);
     <input type="submit" value="Select"/>
     
 </form>
-<h3>Visualization:</h3>
+<h3>Visualization: <?php echo $metric?></h3>
 <?php
 $include_string = ($include_missing)? "0" : "1";
 $data_location = "visualise_db_data.php?include_missing=".$include_string."&metric=".$metric;

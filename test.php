@@ -1,4 +1,7 @@
-<?
-include('database.php');
-var_dump(get_all_metrics($con));
+
+<?php
+$citations = "citations: 14";
+preg_match("/citations:\s(.*)/", $citations, $matches);
+var_dump($matches);
+$element["citations"] = $matches[1];
 ?>
