@@ -117,20 +117,5 @@ if ($urls == null) {
         }
         echo "</tbody>";
 }
-?>
-
-<h3>Continue with the next network</h3>
-<form name="confirm" action="insert_person2.php" method="post">
-    <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
-    <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
-                    
-    <?php
-    array_shift($network_array); 
-    ?>
-                    
-    <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
-    <input type="submit" value="confirm">
-</form>
-
-<?php            
-include('footer.php');
+    
+include('footer.php');   
