@@ -1,18 +1,12 @@
 <?php
 //Database specifics
-$host = '84.246.4.143';
-$username = 'StappaertsDB';
-$password = 'Database1';
-$dbname = 'StappaertsDB';
+$host = "localhost";
+$username = "bpaltmetrics";
+$password = "ErikDuv@lR0ckz";
+$dbname = "bpaltmetrics";
 
-var_dump($host);
-var_dump($username);
-var_dump($password);
-var_dump($dbname);
 
-var_dump(function_exists('mysqli_connect'));
-
-$con = new mysqli($host,$username,$password,$dbname,9132);
+$con = mysqli_connect($host,$username,$password,$dbname) or die("fuck you too");
 //mysqli_select_db($con,$dbname);
 
 //Selects a person, with his first and lastname. If the person does not exist, s/he is inserted in the database and returned.
