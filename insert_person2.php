@@ -68,19 +68,38 @@ if ($urls == null) {
     <h2><?php echo ucwords($network_name)?> Netwerk: Select the person you're looking for.</h2>
     <table>
         <thead>
+            <!-- <?php                
+            for ($i = 2; $i < count($column_array); $i++) {
+                echo "<th>";
+                echo ucwords(str_replace("_"," ", $column_array[$i]));
+                echo "</th>";
+
+            }                
+            ?> -->
+            
             <?php                
             for ($i = 2; $i < count($column_array); $i++) {
                 echo "<th>";
-                ?>
-                
-                <form action="checkbox_person.php">
-                <input type="checkbox" name="person_select" value="<?php ucwords(str_replace("_"," ", $column_array[$i])) ?>">;
-                </form>
-                
-                <?php
+                echo ucwords(str_replace("_"," ", $column_array[$i]));
                 echo "</th>";
+
             }                
             ?>
+            
+            <input type="checkbox" name="person[]" value="ucwords(str_replace("_"," ", $column_array[$i]))" />
+            
+            <?php
+            // If you give the checkboxes the same name, ending in [], the values are returned as an array.
+
+            if( isset($_POST['person']) && is_array($_POST['person']) ) {
+                foreach($_POST['person'] as $person) {
+                    echo $person;
+                }
+                
+                $personList = implode(', ', $_POST['fruit']);
+            }
+            ?>
+            
             <th></th>
         </thead>
         <tbody>
@@ -137,6 +156,5 @@ if ($urls == null) {
     <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
     <input type="submit" value="confirm">
 </form>
-
-<?php
+    
 include('footer.php');   
