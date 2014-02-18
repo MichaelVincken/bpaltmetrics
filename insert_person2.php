@@ -68,15 +68,6 @@ if ($urls == null) {
     <h2><?php echo ucwords($network_name)?> Netwerk: Select the person you're looking for.</h2>
     <table>
         <thead>
-            <!-- <?php                
-            for ($i = 2; $i < count($column_array); $i++) {
-                echo "<th>";
-                echo ucwords(str_replace("_"," ", $column_array[$i]));
-                echo "</th>";
-
-            }                
-            ?> -->
-            
             <?php                
             for ($i = 2; $i < count($column_array); $i++) {
                 echo "<th>";
@@ -85,21 +76,6 @@ if ($urls == null) {
 
             }                
             ?>
-            
-            <input type="checkbox" name="person[]" value= 'echo <?php ucwords(str_replace("_"," ", $column_array[$i])) ?>' />
-            
-            <?php
-            // If you give the checkboxes the same name, ending in [], the values are returned as an array.
-
-            if( isset($_POST['person']) && is_array($_POST['person']) ) {
-                foreach($_POST['person'] as $person) {
-                    echo $person;
-                }
-                
-                $personList = implode(', ', $_POST['person']);
-            }
-            ?>
-            
             <th></th>
         </thead>
         <tbody>
@@ -140,22 +116,24 @@ if ($urls == null) {
                 }
         }
         echo "</tbody>";
+        ?>
+    
+        <h3>Skip this database.</h3>
+        <form name="confirm" action="insert_person2.php" method="post">
+            <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
+            <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
+                    
+            <?php
+            array_shift($network_array); 
+            ?>
+                    
+            <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
+            <input type="submit" value="confirm">
+        </form>
+            
+                </br>
+        
+        <?php
 }
 
-?>
-
-<h3>Continue with the next network</h3>
-<form name="confirm" action="insert_person2.php" method="post">
-    <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
-    <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
-                    
-    <?php
-    array_shift($network_array); 
-    ?>
-                    
-    <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
-    <input type="submit" value="confirm">
-</form>
-
-<?php>    
-include('footer.php');   
+include('footer.php');
