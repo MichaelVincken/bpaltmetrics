@@ -1,7 +1,8 @@
 
 <?php
-$citations = "citations: 14";
-preg_match("/citations:\s(.*)/", $citations, $matches);
-var_dump($matches);
-$element["citations"] = $matches[1];
-?>
+include('simple_html_dom.php');
+$url = "http://scholar.google.be/citations?hl=en&user=PZURMD0AAAAJ&pagesize=100&view_op=list_works&cstart=100";
+$html = file_get_html($url);
+$ret = $html->find('#citationsForm .cit-dark-link [plaintext^=next]');
+var_dump($ret[0]->plaintext);
+    ?>

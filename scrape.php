@@ -152,29 +152,39 @@ class google_scrape {
         include_once("simple_html_dom.php");
         preg_match("/user=(.*)&/", $url, $matches);
         $id = $matches[1];
-        echo $id;
         //new url for documents of this person
         $url = "http://scholar.google.com/citations?hl=en&user=".$id."&view_op=list_works&pagesize=100";
-        $html = file_get_html($url);
-        
+        $article_array = array();
         do {
-            $ret = $html->find('.cit-table-item');
+            $html = file_get_html($url);
+            $ret = $html->find('.cit-table .item');
             // each $r is a row in the table. extract title, url and citations.
             echo "finding </br>";
             foreach($ret as $r) {
-                var_dump($r);
-                var_dump($r->getchildren());
-                echo "found </br>";
-                
+                $array = array();
+                $array['title'] = html_entity_decode($r->ChildNodes(0)->children(0)->plaintext);
+                $array['citations'] = $r->childNodes(1)->plaintext;
+                $array['url'] = "http://scholar.google.com/".html_entity_decode($r->childNodes(0)->children(0)->href);
+                array_push($article_array,$array);
             }
+            $url_changed=FALSE;
+            $ret = $html->find('.g-section #citationsForm .cit-dark-link');
+            var_Dump(count($ret));
+            foreach($ret as $r) {
+                if(strstr(($r->plaintext),"Next") !== FALSE) {
+                    
+                    $url = "http://scholar.google.com/".$r->href;
+                    var_Dump($url);
+                    $url_changed=TRUE;
+                    echo "found";
+                    break;
+                }
+                    
+            }
+            var_dump($url);
+            echo "</br>";
             
-            
-            
-            
-            
-            //$ret = $html->find('#citationsForm .cit-dark-link')
-            
-        } while(/*count($ret)!=0*/ false);
+        } while(url_changed);
         
     }
 }
