@@ -86,7 +86,7 @@ if ($urls == null) {
             }                
             ?>
             
-            <input type="checkbox" name="person[]" value="ucwords(str_replace("_"," ", $column_array[$i]))" />
+            <input type="checkbox" name="person[]" value= 'echo <?php ucwords(str_replace("_"," ", $column_array[$i])) ?>' />
             
             <?php
             // If you give the checkboxes the same name, ending in [], the values are returned as an array.
@@ -96,7 +96,7 @@ if ($urls == null) {
                     echo $person;
                 }
                 
-                $personList = implode(', ', $_POST['fruit']);
+                $personList = implode(', ', $_POST['person']);
             }
             ?>
             
@@ -156,5 +156,6 @@ if ($urls == null) {
     <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
     <input type="submit" value="confirm">
 </form>
-    
+
+<?php>    
 include('footer.php');   
