@@ -5,8 +5,8 @@ $username = "StappaertsDB";
 $password = "Database1";
 $dbname = "stappaertsdb";
 
-$con = mysqli_connect('localhost',"bpaltmetrics","ErikDuv@lR0ckz");
-mysqli_select_db($con,"bpaltmetrics");
+$con = mysqli_connect($host,$username,$password);
+mysqli_select_db($con,$dbname);
 
 //Selects a person, with his first and lastname. If the person does not exist, s/he is inserted in the database and returned.
 function select_person($firstname,$lastname,$con) {
