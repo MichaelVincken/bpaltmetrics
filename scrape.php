@@ -60,51 +60,46 @@ class microsoft_scrape {
     
     public static function search_papers($url) {
         include_once("simple_html_dom.php");
-        //include_once("PQLite.php");
-        $url = "http://academic.research.microsoft.com/Author/1406490/erik-duval?query=erik%20duval";
         preg_match("/Author\/(.*)\//", $url, $matches);
         $id = $matches[1];
         //new url for documents of this person
         $url = "http://academic.research.microsoft.com/Detail?entitytype=2&searchtype=2&id=".$id;
-       
-       
-        $html = file_get_html("ErikDuval.html");
-        
+        //get first page
+        $html = file_get_html($url);
+        //find navigation for next pages.
         $ret = $html->find('.page-navigator a');
         $array = array();
+        //array[0] = html of first page
         $array[0] = $html;
+        //find html for every other page.
         for($i = 1; $i < count($ret); $i ++) {
             $ur = html_entity_decode("http://academic.research.microsoft.com".$ret[$i-1]->href);
             $html = file_get_html($ur);
             $array[$i] = $html;
         }
-        
+        //article_array: array with all articles.
         $article_array = array();
+        //for each page: get all articles.
         foreach($array as $html) {
-            echo "finding </br>";
             $ret = $html->find('h3 a');
-            echo "found ".count($ret);
-            $i = 1;
-            while($i < count($ret)) {
+            $i = 0;
+            while($i < count($ret)-1) {
                 $element = array();
-                $element["url"] = $ret[$i]->href;
-                $element["title"] = $ret[$i] ->plaintext;
+                $element["url"] = html_entity_decode("http://academic.research.microsoft.com/".$ret[$i]->href);
+                $element["title"] = html_entity_decode($ret[$i] ->plaintext);
+                //special case when citations are included.
                 if(preg_match("/citations:\s(.*)/",$ret[$i+1]->plaintext,$matches)==TRUE) {
                     $element["citations"] = $matches[1];
                     $i = $i+2;
                 } else {
                     $element["citations"] = 0;
                     $i++;
-                }
-               
-                
-                
+                } 
                 array_push($article_array,$element);
-            
+            }
         }
         
-        return $article_array;
-     }   
+        return $article_array;       
     }
     
 }
@@ -150,6 +145,36 @@ class google_scrape {
         }
         
         return $array;
+    }
+    
+    public static function search_papers($url) {
+        $url = "http://scholar.google.com/citations?user=PZURMD0AAAAJ&hl=en";
+        include_once("simple_html_dom.php");
+        preg_match("/user=(.*)&/", $url, $matches);
+        $id = $matches[1];
+        echo $id;
+        //new url for documents of this person
+        $url = "http://scholar.google.com/citations?hl=en&user=".$id."&view_op=list_works&pagesize=100";
+        $html = file_get_html($url);
+        
+        do {
+            $ret = $html->find('.cit-table-item');
+            // each $r is a row in the table. extract title, url and citations.
+            foreach($ret as $r) {
+                var_dump($r);
+                var_dump($r->getchildren());
+               
+                
+            }
+            
+            
+            
+            
+            
+            //$ret = $html->find('#citationsForm .cit-dark-link')
+            
+        } while(/*count($ret)!=0*/ false);
+        
     }
 }
 
@@ -208,7 +233,7 @@ class citeseer_scrape {
 // Google Scholar
 //var_dump(Google_scrape::get_person("http://scholar.google.com/citations?user=PZURMD0AAAAJ"));
 //var_dump(Google_scrape::search_person("Erik","Duval"));
-
+var_dump(Google_scrape::search_papers("/"));
 // CiteSeerX
 //var_dump(Citeseer_scrape::get_person("http://citeseerx.ist.psu.edu/viewauth/summary?aid=62171&list=full&list=full"));
 //var_dump(Citeseer_scrape::search_person("Erik","Duval"));
@@ -220,7 +245,7 @@ class citeseer_scrape {
 //var_dump(google_scrape::search_person("matthijs","van leeuwen"));
 
 //Microsoft
-var_dump(microsoft_scrape::search_papers("/"));
+//var_dump(microsoft_scrape::search_papers("/"));
 
 ?>
 
