@@ -1,9 +1,9 @@
 <?php
 //Database specifics
-$host = "localhost";
-$username = "bpaltmetrics";
-$password = "ErikDuv@lR0ckz";
-$dbname = "bpaltmetrics";
+$host = "84.246.4.143:9132";
+$username = "StappaertsDB";
+$password = "Database1";
+$dbname = "stappaertsdb";
 
 $con = mysqli_connect('localhost',"bpaltmetrics","ErikDuv@lR0ckz");
 mysqli_select_db($con,"bpaltmetrics");
