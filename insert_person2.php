@@ -71,9 +71,14 @@ if ($urls == null) {
             <?php                
             for ($i = 2; $i < count($column_array); $i++) {
                 echo "<th>";
-                echo ucwords(str_replace("_"," ", $column_array[$i]));
+                ?>
+                
+                <form action="checkbox_person.php">
+                <input type="checkbox" name="person_select" value="<?php ucwords(str_replace("_"," ", $column_array[$i])) ?>">;
+                </form>
+                
+                <?php
                 echo "</th>";
-
             }                
             ?>
             <th></th>
@@ -117,5 +122,21 @@ if ($urls == null) {
         }
         echo "</tbody>";
 }
-    
+
+?>
+
+<h3>Continue with the next network</h3>
+<form name="confirm" action="insert_person2.php" method="post">
+    <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
+    <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
+                    
+    <?php
+    array_shift($network_array); 
+    ?>
+                    
+    <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
+    <input type="submit" value="confirm">
+</form>
+
+<?php
 include('footer.php');   
