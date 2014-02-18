@@ -160,10 +160,11 @@ class google_scrape {
         do {
             $ret = $html->find('.cit-table-item');
             // each $r is a row in the table. extract title, url and citations.
+            echo "finding </br>";
             foreach($ret as $r) {
                 var_dump($r);
                 var_dump($r->getchildren());
-               
+                echo "found </br>";
                 
             }
             

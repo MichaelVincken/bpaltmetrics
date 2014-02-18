@@ -37,11 +37,11 @@ if (already_in_database($firstname,$lastname,$con) && count($network_array) == c
 ?>
     <a href = "insert_person1.php"> Go back and insert a new person </a>
 <?php    
-}   
+}  
     
 if ($urls == null) {        
 ?>
-<h2>The person you're looking for has not been found in the <?php echo $network_name?> network.</h2>
+<h2>The person you're looking for has not been found in the <?php echo ucwords($network_name)?> network.</h2>
 <h3>Supply the right URL yourself</h3>
 <form name="confirm" action="insert_person2_URLNotFound.php" method="post">
     url: <input type="url" name="url"/>
@@ -65,7 +65,7 @@ if ($urls == null) {
 <?php
 } else {
     ?>        
-    <h2>Select the person you're looking for.</h2>
+    <h2><?php echo ucwords($network_name)?> Netwerk: Select the person you're looking for.</h2>
     <table>
         <thead>
             <?php                
@@ -117,6 +117,20 @@ if ($urls == null) {
         }
         echo "</tbody>";
 }
+?>
 
-            
-include('footer.php');   
+<h3>Continue with the next network</h3>
+<form name="confirm" action="insert_person2.php" method="post">
+    <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
+    <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
+                    
+    <?php
+    array_shift($network_array); 
+    ?>
+                    
+    <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
+    <input type="submit" value="confirm">
+</form>
+
+<?php            
+include('footer.php');
