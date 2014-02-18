@@ -244,7 +244,7 @@ class citeseer_scrape {
 // Google Scholar
 //var_dump(Google_scrape::get_person("http://scholar.google.com/citations?user=PZURMD0AAAAJ"));
 //var_dump(Google_scrape::search_person("Erik","Duval"));
-var_dump(Google_scrape::search_papers("/"));
+//var_dump(Google_scrape::search_papers("/"));
 // CiteSeerX
 //var_dump(Citeseer_scrape::get_person("http://citeseerx.ist.psu.edu/viewauth/summary?aid=62171&list=full&list=full"));
 //var_dump(Citeseer_scrape::search_person("Erik","Duval"));
