@@ -70,6 +70,30 @@ if ($urls == null) {
     // -- CASE 3 :: Selecting the person to be inserted in the database --
     ?>
     <h2><?php echo ucwords($network_name)?> Network: Select the person you're looking for.</h2>
+    
+    <script language = "JavaScript">  
+    
+    function onSelect() {  
+    if(confirm('Are you sure you want to select?') == true) {  
+        return true;  
+    }   else {  
+        return false;  
+        }  
+    }  
+    
+    function ClickCheckAll(vol) {  
+    var i=1;  
+        for(i=1;i<=document.form_checkbox.hdnCount.value;i++) {  
+            if(vol.checked == true) {
+                eval("document.form_checkbox.chkSel"+i+".checked=true");  
+            } else {  
+                eval("document.form_checkbox.chkSel"+i+".checked=false");  
+            }  
+        }  
+    }
+    </script>
+    
+    <form name="form_checkbox" action="checkbox.php" method="post" OnSubmit="return onSelect();"> 
     <table>
         <thead>
             <?php                
@@ -77,10 +101,9 @@ if ($urls == null) {
                 echo "<th>";
                 echo ucwords(str_replace("_"," ", $column_array[$i]));
                 echo "</th>";
-
             }                
             ?>
-            <th></th>
+            <th width="30"><div align="center"><input name="CheckAll" type="checkbox" id="CheckAll" value="Y" onClick="ClickCheckAll(this);"></div></th>
         </thead>
         <tbody>
             <?php
@@ -96,30 +119,21 @@ if ($urls == null) {
                     echo "</td>";
                     for ($i = 3; $i < count($column_array); $i++) {
                         echo "<td>".$result[$column_array[$i]]."</td>";                        
-                    }
-                    
-                    
+                    } 
                     ?>
-                    <td>
-                        <form name="confirm" action="insert_person3.php" method="post">
-                            <?php 
-                            $resultstring = urlencode(serialize($result));
-                            ?>
-                            <input type="hidden" value="<?php echo $resultstring ?>" name="result" />
-                            <input type="hidden" value="<?php echo $url ?>" name="url" />
-                            <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
-                            <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
-                            <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
-                            <input type="submit" value="confirm">
-                        </form>
+                    <td align="center"><input type="checkbox" name="chkSel[]" id="chkSel<?=$i;?>" value="<?=$given_name;?>"></td>
                         <?php
-                        echo "</td>"; 
                         echo "</tr>";
                     }
                 }
                 ?>
             </tbody>
         </table>
+        
+        <input type="submit" name="btnSelect" value="Select">  
+        <input type="hidden" name="hdnCount" value="<?=$i;?>">
+        
+        </form> 
             <?php
         } ?>
         <h3>Or skip this database if you don't want to insert this person in the <?php echo ucwords($network_name)?> Network.</h3>
