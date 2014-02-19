@@ -1,10 +1,5 @@
 <?php
 $page_title = 'Checkbox Person';
-        
-include_once('scrape.php');
-include_once('database.php');
-include_once('insert_person2.php');
-include_once('insert_person3.php');
 ?>
 
 <html>  
@@ -31,7 +26,7 @@ include_once('insert_person3.php');
         }  
     }  
   
-    echo "Dees werkt van geen kanten.";  
+    echo ":(";  
     ?>  
 </body>  
 </html>

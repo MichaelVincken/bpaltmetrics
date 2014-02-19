@@ -74,7 +74,7 @@ if ($urls == null) {
     <script language = "JavaScript">  
     
     function onSelect() {  
-    if(confirm('Are you sure you want to select?') == true) {  
+    if(confirm('Are you sure you want to proceed?') == true) {  
         return true;  
     }   else {  
         return false;  
@@ -121,7 +121,7 @@ if ($urls == null) {
                         echo "<td>".$result[$column_array[$i]]."</td>";                        
                     } 
                     ?>
-                    <td align="center"><input type="checkbox" name="chkSel[]" id="chkSel<?=$i;?>" value="<?=$given_name;?>"></td>
+                    <td align="center"><input type="checkbox" name="chkSel[]" id="chkSel<?=$i;?>" value="<?=$name;?>"></td>
                         <?php
                         echo "</tr>";
                     }
