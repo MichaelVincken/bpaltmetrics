@@ -1,6 +1,5 @@
 <?php
 $page_title = "Insert Person";
-require_once('login.php');
 require_once('menu.php');
 require_once('database.php');
 

@@ -83,18 +83,20 @@ class microsoft_scrape {
         foreach($array as $html) {
             $ret = $html->find('h3 a');
             $i = 0;
-            while($i < count($ret)-1) {
+            while($i < count($ret)) {
                 $element = array();
                 $element["url"] = html_entity_decode("http://academic.research.microsoft.com/".$ret[$i]->href);
                 $element["title"] = html_entity_decode($ret[$i] ->plaintext);
                 //special case when citations are included.
-                if(preg_match("/citations:\s(.*)/",$ret[$i+1]->plaintext,$matches)==TRUE) {
-                    $element["citations"] = $matches[1];
-                    $i = $i+2;
-                } else {
-                    $element["citations"] = 0;
-                    $i++;
-                } 
+                    if(isset($ret[$i+1]) && preg_match("/Citations:\s(.*)/",$ret[$i+1]->plaintext,$matches)==1) {
+                        $element["citations"] = intval($matches[1]);
+                        $i = $i+2;
+                    } else {
+                        $element["citations"] = 0;
+                        $i++;
+                    } 
+                $element["network"] = "microsoft";
+                    
                 array_push($article_array,$element);
             }
         }
@@ -148,9 +150,8 @@ class google_scrape {
     }
     
     public static function search_papers($url) {
-        $url = "http://scholar.google.com/citations?user=PZURMD0AAAAJ&hl=en";
         include_once("simple_html_dom.php");
-        preg_match("/user=(.*)&/", $url, $matches);
+        preg_match("/user=(.*)/", $url, $matches);
         $id = $matches[1];
         //new url for documents of this person
         $url = "http://scholar.google.com/citations?hl=en&user=".$id."&view_op=list_works&pagesize=100";
@@ -159,33 +160,30 @@ class google_scrape {
             $html = file_get_html($url);
             $ret = $html->find('.cit-table .item');
             // each $r is a row in the table. extract title, url and citations.
-            echo "finding </br>";
             foreach($ret as $r) {
                 $array = array();
                 $array['title'] = html_entity_decode($r->ChildNodes(0)->children(0)->plaintext);
-                $array['citations'] = $r->childNodes(1)->plaintext;
+                $citations = $r->childNodes(1)->plaintext;
+                if($citations == '') $citations = 0;
+                $array['citations'] = intval($citations);
                 $array['url'] = "http://scholar.google.com/".html_entity_decode($r->childNodes(0)->children(0)->href);
+                $array["network"] = "google";
                 array_push($article_array,$array);
             }
             $url_changed=FALSE;
             $ret = $html->find('.g-section #citationsForm .cit-dark-link');
-            var_Dump(count($ret));
             foreach($ret as $r) {
                 if(strstr(($r->plaintext),"Next") !== FALSE) {
                     
-                    $url = "http://scholar.google.com/".$r->href;
-                    var_Dump($url);
+                    $url = "http://scholar.google.com/".html_entity_decode($r->href);
                     $url_changed=TRUE;
-                    echo "found";
                     break;
                 }
                     
             }
-            var_dump($url);
-            echo "</br>";
             
-        } while(url_changed);
-        
+        } while($url_changed);
+        return $article_array;
     }
 }
 
@@ -239,16 +237,35 @@ class citeseer_scrape {
         return $array;
         
     }
+    
+    public static function search_papers($url) {
+        include_once("simple_html_dom.php");
+        $url =  "http://citeseerx.ist.psu.edu/viewauth/summary?aid=62171";
+        $url = $url . "&list=full";
+        $html = file_get_html($url);
+        $ret = $html->find('#viewContent #viewContent-inner .refs tr');
+        $result_array = array();
+        for ($i = 1;$i < count($ret); $i++) {
+            $array = array();
+            $array["citations"] = intval($ret[$i]->children(0)->plaintext);
+            $array["title"] = html_entity_decode($ret[$i]->children(1)->children(0)->plaintext);
+            $array["url"] = "http://citeseerx.ist.psu.edu".html_entity_decode($ret[$i]->children(1)->children(0)->href);
+            $array["network"] = "citeseer";
+            array_push($result_array,$array);
+        }
+        return $result_array;
+        
+    }
 }
 
 // Google Scholar
 //var_dump(Google_scrape::get_person("http://scholar.google.com/citations?user=PZURMD0AAAAJ"));
 //var_dump(Google_scrape::search_person("Erik","Duval"));
-//var_dump(Google_scrape::search_papers("/"));
+//var_dump(Google_scrape::search_papers("http://scholar.google.com/citations?user=PZURMD0AAAAJ"));
 // CiteSeerX
 //var_dump(Citeseer_scrape::get_person("http://citeseerx.ist.psu.edu/viewauth/summary?aid=62171&list=full&list=full"));
 //var_dump(Citeseer_scrape::search_person("Erik","Duval"));
-
+//var_dump(Citeseer_scrape::search_papers("/"));
 
 
 //What to do with: f.e. Matthijs van Leeuwen
@@ -256,7 +273,7 @@ class citeseer_scrape {
 //var_dump(google_scrape::search_person("matthijs","van leeuwen"));
 
 //Microsoft
-//var_dump(microsoft_scrape::search_papers("/"));
+//var_dump(microsoft_scrape::search_papers("http://academic.research.microsoft.com/Author/1406490/erik-duval?query=erik%20duval"));
 
 ?>
 

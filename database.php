@@ -130,6 +130,32 @@ function retrieve_persons($con) {
     return $resultarray;
 }
 
+function retrieve_papers($con) {
+    $con = mysqli_connect('84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+    $query = "SELECT pId, title FROM paper";
+    $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
+    $resultarray = array();
+    while($row = mysqli_fetch_array($result)) {
+        $row["network"] = "current";
+        array_push($resultarray,$row);
+    }
+    return $resultarray;
+    
+}
+
+function retrieve_urls($pId,$network,$con) {
+    $con = mysqli_connect('84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+    
+    $table = $network."_url";
+    $query = "SELECT url FROM {$table} WHERE pId = '{$pId}'";
+    $result = mysqli_query($con,$query) or die('Cannot retrieve url. '.mysqli_error($con));
+    $resultarray = array();
+    while($row = mysqli_fetch_array($result)) {
+        array_push($resultarray,$row[0]);
+    }
+    return $resultarray;
+}
+
 /*
 *   $con
 *   $metric ex. citations
