@@ -6,7 +6,7 @@ $password = "ErikDuv@lR0ckz";
 $dbname = "bpaltmetrics";
 
 
-$con = mysqli_connect('84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+$con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
 //mysqli_select_db($con,$dbname);
 
 //Selects a person, with his first and lastname. If the person does not exist, s/he is inserted in the database and returned.
@@ -131,7 +131,7 @@ function retrieve_persons($con) {
 }
 
 function retrieve_papers($con) {
-    $con = mysqli_connect('84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+    $con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
     $query = "SELECT pId, title FROM paper";
     $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
     $resultarray = array();
@@ -144,7 +144,7 @@ function retrieve_papers($con) {
 }
 
 function retrieve_urls($pId,$network,$con) {
-    $con = mysqli_connect('84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+    $con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
     
     $table = $network."_url";
     $query = "SELECT url FROM {$table} WHERE pId = '{$pId}'";

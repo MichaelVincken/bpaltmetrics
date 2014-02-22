@@ -11,7 +11,7 @@ $pId = mysql_real_escape_string($_POST["pId"]);
 $networks = retrieve_networks($con);
 $papers = array();
 //first: finding all papers that are currently in the network. :(
-
+$paper["current"] = retrieve_papers($con);
 
 
 
@@ -27,6 +27,7 @@ foreach($networks as $network) {
 Please be patient, all papers will be compared to find matching ones acros networks.
 <form name="auto_form" action="find_papers_compare.php" method="post">
     <input type="hidden" value="<?php echo urlencode(serialize($papers))?>" name="papers" />
+    <input type="hidden" value="<?php echo $pId?>" name ="pId" />
             
 </form>
 <script language = "JavaScript">
