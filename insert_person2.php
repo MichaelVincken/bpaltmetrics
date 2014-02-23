@@ -83,10 +83,9 @@ if ($urls == null) {
                 echo "<th>";
                 echo ucwords(str_replace("_"," ", $column_array[$i]));
                 echo "</th>";
-
-            }                
+            }
             ?>
-            <th></th>
+            <th>Select</th>
         </thead>
        
         <tbody>
@@ -104,22 +103,21 @@ if ($urls == null) {
                     for ($i = 3; $i < count($column_array); $i++) {
                         echo "<td>".$result[$column_array[$i]]."</td>";                        
                     }
-                    
-                    
                     ?>
+                    
                     <td>
-                        <form name="confirm" action="insert_person3.php" method="post">
+                        <form name="checkbox" action="checkbox.php" method="post">
                             <?php 
                             $resultstring = urlencode(serialize($result));
                             ?>
+                            <input type="checkbox" name="persons[]" value="<?php echo $resultstring ?>" />
                             <input type="hidden" value="<?php echo $resultstring ?>" name="result" />
                             <input type="hidden" value="<?php echo $url ?>" name="url" />
                             <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
                             <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
                             <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
-                            <input type="submit" value="confirm">
-                        </form>
-
+                    </td>
+                        
                         <?php
                 
                         echo "</td>"; 
@@ -130,6 +128,8 @@ if ($urls == null) {
                 ?>
             </tbody>
         </table>
+        <input type="submit" value="Add Selected">
+        </form>
     <?php
     }
     ?>

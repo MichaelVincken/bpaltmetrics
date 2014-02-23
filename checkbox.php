@@ -1,32 +1,14 @@
 <?php
-$page_title = 'Checkbox Person';
-?>
+$page_title = "Checkbox";
+require_once('menu.php');
+require_once('database.php');
 
-<html>  
-<head>  
-    <title>Selecting the person you want.</title>  
-</head>  
-<body>  
-    <?  
-    for($i=0;$i<count($_POST["chkSel"]);$i++) {  
-        if($_POST["chkSel"][$i] != "") {  
-            ?>
-            <form name="confirm" action="insert_person3.php" method="post">
-                <?php 
-                $resultstring = urlencode(serialize($result));
-                ?>
-                <input type="hidden" value="<?php echo $resultstring ?>" name="result" />
-                <input type="hidden" value="<?php echo $url ?>" name="url" />
-                <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
-                <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
-                <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
-                <input type="submit" value="confirm">
-            </form>
-            <?php
-        }  
-    }  
-  
-    echo ":(";  
-    ?>  
-</body>  
-</html>
+$checkboxes = isset($_POST['persons']) ? $_POST['persons'] : array();
+$resultPersons = array();
+foreach($checkboxes as $person) {
+    array_push($resultPersons, unserialize(urldecode($person)));
+}
+
+var_dump($resultPersons);
+
+include('footer.php')?>
