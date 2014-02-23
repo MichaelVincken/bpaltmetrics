@@ -10,20 +10,17 @@ foreach($papers as $paper) {
     //For each paper_array, we first check if we have an existing paper or a new one.
     if(isset($paper[0]["current"])) {
         $paperId = $paper[0]["pId"];
-        $query = "INSERT INTO authored VALUES ('{$paperId}','{$personId}')";
-        mysqli_query($con,$query);
+        insert_authored($paperId,$personId,$con);
         
         for($i=1;$i<count($paper);$i++) {
-            $network = $paper[$i]["network"];
-            $citations = $paper[$i]["citations"];
-            $url = $paper[$i]["url"];
-            $table_name = $network."_url_paper";
-            $query_url = "INSERT INTO {$table_name} VALUES ('{$paperId}','{$url}')";
-            
+            $network = $entry["network"];
+            $url = $entry["url"];
+            insert_paper_url($network,$paperId,$url,$con);
+            //Insert new tuple for the citations.
+            $citations = $entry["citations"];   
             $table_name = $network."_paper";
             $query_citation = "INSERT INTO {$table_name} VALUES ('{$paperId}', CURDATE(), '{$citations}')";
             try {
-                mysqli_query($con,$query_url);
                 mysqli_query($con,$query_citation);
                                 
             } catch (Exception $e) {
@@ -31,27 +28,23 @@ foreach($papers as $paper) {
             }
         }
     } else {
+        //insert new paper in the database. This also returns an existing paper IF it was already in it.
         $title = $paper[0]["title"];
-        $query = "INSERT INTO paper VALUES (DEFAULT, '{$title}') ";
-        mysqli_query($con,$query);
-        $query = "SELECT pId FROM paper WHERE title = '{$title}'";
-        $result = mysqli_query($con,$query);
-        $paperId = mysqli_fetch_array($result)["pId"];
-        $query = "INSERT INTO authored VALUES ('{$paperId}','{$personId}')";
-        mysqli_query($con,$query);
-        
+        $result = select_paper($title,$con);
+        $paperId = $result["pId"];
+        //insert new authored tuple.
+        insert_authored($paperId,$personId,$con);
         
         foreach($paper as $entry) {
             $network = $entry["network"];
-            $citations = $entry["citations"];
             $url = $entry["url"];
-            $table_name = $network."_url_paper";
-            $query_url = "INSERT INTO {$table_name} VALUES ('{$paperId}','{$url}')";
-            
+            insert_paper_url($network,$paperId,$url,$con);
+            //Insert new tuple for the citations.
+            $citations = $entry["citations"];   
             $table_name = $network."_paper";
             $query_citation = "INSERT INTO {$table_name} VALUES ('{$paperId}', CURDATE(), '{$citations}')";
+            
             try {
-                mysqli_query($con,$query_url);
                 mysqli_query($con,$query_citation);
                                 
             } catch (Exception $e) {

@@ -30,6 +30,45 @@ function select_person($firstname,$lastname,$con) {
     return $returnarray;
     
 }
+//Selects a paper with it's title. If the paper does not exist, it is inserted and the paperId is returned.
+function select_paper($title,$con) {
+    $query = "SELECT pId FROM paper WHERE title = '{$title}";
+    $result = mysqli_query($con,$query) or die("Cannot execute query. ".mysqli_error($con));
+    $returnarray = array();
+    while($row = mysqli_fetch_array($result)) {
+        array_push($returnarray,$row);
+    }
+    if(count($returnarray)==0) {
+        $query = "INSERT INTO paper(pId,title) VALUES (DEFAULT,'{$title}')";
+        mysqli_query($con,$query) or die("Cannot execute query".mysqli_error($con));
+        $query = "SELECT pId FROM person WHERE name='{$firstname}' AND lastname='{$lastname}'";
+        $result = mysqli_query($con,$query) or die("Cannot execute query ".mysqli_error($con));
+        $returnarray = array();
+        while($row = mysqli_fetch_array($result)) {
+            array_push($returnarray,$row);
+        }
+    }
+    return $returnarray;
+    
+}
+
+//Inserts new authored tuple of paper-person.
+function insert_authored($paperID,$personId,$con) {
+    $query = "INSERT INTO authored VALUES ('{$paperId}','{$personId}')";
+    mysqli_query($con,$query);
+    
+}
+
+//inserts new paper url in the table for the $network.
+function insert_paper_url($network,$paperId,$url,$con) {
+    $table_name = $network."_url_paper";
+    $query_url = "INSERT INTO {$table_name} VALUES ('{$paperId}','{$url}')";
+    mysqli_query($con,$query_url);
+    
+}
+
+
+
 
 //Retrieves all networks in the "network" table of the database.
 function retrieve_networks($con) {
