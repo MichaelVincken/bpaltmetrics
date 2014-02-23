@@ -75,7 +75,7 @@ if ($urls == null) {
     <?php
 } else {
     ?>        
-    <h2><?php echo ucwords($network_name)?> Netwerk: Select the person you're looking for.</h2>
+    <h2><?php echo ucwords($network_name)?> network: Select the person you're looking for.</h2>
     <table>
         <thead>
             <?php                

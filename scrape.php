@@ -231,7 +231,14 @@ class citeseer_scrape {
         $ret = $html->find('.result a[href^=/view]');
         $array = array();
         for($i = 0; $i < count($ret); $i++) {
-            array_push($array,"http://citeseerx.ist.psu.edu" . ($ret[$i]->href));
+            $url_part = 
+            $url_part = html_entity_decode($ret[$i]->href);
+            preg_match("/aid=(.*)/", $url_part, $matches);
+            $id = $matches[1];
+            $url = "http://citeseerx.ist.psu.edu/viewauth/summary?aid=".$id;
+            array_push($array,$url);
+            
+            
         }
         
         return $array;
@@ -249,11 +256,7 @@ class citeseer_scrape {
             $array = array();
             $array["citations"] = intval($ret[$i]->children(0)->plaintext);
             $array["title"] = html_entity_decode($ret[$i]->children(1)->children(0)->plaintext);
-            $url_part = html_entity_decode($ret[$i]->children(1)->children(0)->href);
-            preg_match("/aid=(.*)/", $url_part, $matches);
-            $id = $matches[1];
-            $array["url"] = "http://citeseerx.ist.psu.edu/viewauth/summary?aid=".$id;
-            
+            $array["url"] = "http://citeseerx.ist.psu.edu".html_entity_decode($ret[$i]->children(1)->children(0)->href);
             $array["network"] = "citeseer";
             array_push($result_array,$array);
         }
