@@ -111,11 +111,10 @@ if ($urls == null) {
                             $resultstring = urlencode(serialize($result));
                             ?>
                             <input type="checkbox" name="persons[]" value="<?php echo $resultstring ?>" />
-                            <input type="hidden" value="<?php echo $resultstring ?>" name="result" />
-                            <input type="hidden" value="<?php echo $url ?>" name="url" />
-                            <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
-                            <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
-                            <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
+                            <input type="hidden" name="urls[]" value="<?php echo $url ?>" />
+                            <input type="hidden" name="firstnames[]" value="<?php echo $firstname ?>" />
+                            <input type="hidden" name="lastnames[]" value="<?php echo $lastname ?>" />
+                            <input type="hidden" name="networks[]" value="<?php echo urlencode(serialize($network_array)) ?>" />
                     </td>
                         
                         <?php
