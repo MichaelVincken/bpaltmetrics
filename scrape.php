@@ -249,7 +249,11 @@ class citeseer_scrape {
             $array = array();
             $array["citations"] = intval($ret[$i]->children(0)->plaintext);
             $array["title"] = html_entity_decode($ret[$i]->children(1)->children(0)->plaintext);
-            $array["url"] = "http://citeseerx.ist.psu.edu".html_entity_decode($ret[$i]->children(1)->children(0)->href);
+            $url_part = html_entity_decode($ret[$i]->children(1)->children(0)->href);
+            preg_match("/aid=(.*)/", $url_part, $matches);
+            $id = $matches[1];
+            $array["url"] = "http://citeseerx.ist.psu.edu/viewauth/summary?aid=".$id;
+            
             $array["network"] = "citeseer";
             array_push($result_array,$array);
         }
