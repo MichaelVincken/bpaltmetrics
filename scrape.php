@@ -122,11 +122,11 @@ class google_scrape {
         $array["i10-index"] = ($ret[4]->plaintext);
      
         $ret = $html->find('#cit-affiliation-read .cit-in-place-nohover');
-        $array["affiliation"] = ($ret[0]->plaintext);
+        $array["affiliation"] = html_entity_decode($ret[0]->plaintext);
         
         // Terugvinden study_field
         $ret = $html->find("span[id=cit-int-read]");
-        $array["study_field"] = ($ret[0]->plaintext);
+        $array["study_field"] = html_entity_decode($ret[0]->plaintext);
         return $array;
     }
     
@@ -206,7 +206,7 @@ class citeseer_scrape {
         $ret = $html->find('#authInfo tbody tr td');
         
         // Get head info
-        $array["affiliation"] = $ret[3]->plaintext;
+        $array["affiliation"] = html_entity_decode($ret[3]->plaintext);
         $array["publications"] = $ret[5]->plaintext;
         $array["h-index"] = $ret[7]->plaintext;
        

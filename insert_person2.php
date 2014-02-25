@@ -14,7 +14,7 @@ $lastname = ucfirst(mysql_real_escape_string($_POST["lastname"]));
 $network_string = mysql_real_escape_string($_POST["networks"]);
 $network_array = unserialize(urldecode($network_string));
 
-
+try{
 /**
  * Case 1 in inserting a person in the database
  * There are no more networks to search for this person           
@@ -32,10 +32,12 @@ if (count($network_array) == 0) {
     </script>
 
     <?php
+    
 } else {
     //Getting data for the next network.
     $network_name = $network_array[0];
     $urls = call_user_func_array($network_name.'_scrape'.'::search_person',array($firstname,$lastname));
+
             
     $column_array = retrieve_columns($network_name.'_person',$con);
             
@@ -106,7 +108,7 @@ if ($urls == null) {
                     ?>
                     
                     <td>
-                        <form name="checkbox" action="checkbox.php" method="post">
+                        <form name="checkbox" action="insert_person3.php" method="post">
                             <?php 
                             $resultstring = urlencode(serialize($result));
                             ?>
@@ -131,9 +133,13 @@ if ($urls == null) {
         </form>
     <?php
     }
-    ?>
-    
-    <h3>Or skip this database if you don't want to insert this person in the <?php echo ucwords($network_name)?> Network.</h3>
+ } catch(Exception $e) {
+     echo  "<script>";
+     echo "window.alert('Something went wrong, try again later. ". $e."');";
+     echo "</script>";
+ }  
+ ?>
+    <h3>Skip this database if you don't want to insert this person in the <?php echo ucwords($network_name)?> Network.</h3>
     <form name="confirm" action="insert_person2.php" method="post">
         <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
         <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />

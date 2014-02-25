@@ -1,4 +1,12 @@
+<?php   
+$page_title = "find papers";
+require('menu.php');
+require('database.php');
+require('scrape.php');
+?>
+
 <?php
+
 $papers = unserialize(urldecode(mysql_real_escape_string($_POST["papers"])));
 $pId = mysql_real_escape_string($_POST["pId"]);
 $networks = array_keys($papers);
@@ -24,8 +32,7 @@ for($i=0;$i<count($networks);$i++) {
                         //compare
                         //text is very similar OR text is substring of other text.
                         similar_text($paper["title"],$other["title"],$percentage);
-                        $substring = (strpos($paper["title"],$other["title"]) !== FALSE) || (strpos($other["title"],$paper["title"]) !== FALSE);
-                        if(($percentage > 80) || $substring) {
+                        if(($percentage > 80)) {
                             array_push($similar_array,$other);
                             unset($papers[$networks[$j]][$o]);
                         }
@@ -48,5 +55,8 @@ Please be patient, all papers need to be inserted in the databse.
 <script language = "JavaScript">
 document.auto_form.submit();
 </script> 
+
+<?php require_once('footer.php');    ?>
+
 
 

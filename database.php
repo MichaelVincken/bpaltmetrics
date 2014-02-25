@@ -1,13 +1,20 @@
 <?php
-//Database specifics
-$host = "localhost";
-$username = "bpaltmetrics";
-$password = "ErikDuv@lR0ckz";
-$dbname = "bpaltmetrics";
 
 
-$con = mysqli_connect('84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+
+
+require_once('password.php');
+//$con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
 //mysqli_select_db($con,$dbname);
+try {
+$con = mysqli_connect($host,$username,$password,$dbname,$port) or die('connection to database failed.');
+} catch (Exception $e) {
+    echo  "<script>";
+    echo "window.alert('Database connection failed.');";
+    echo "</script>";
+}
+
+
 
 //Selects a person, with his first and lastname. If the person does not exist, s/he is inserted in the database and returned.
 function select_person($firstname,$lastname,$con) {
@@ -32,7 +39,7 @@ function select_person($firstname,$lastname,$con) {
 }
 //Selects a paper with it's title. If the paper does not exist, it is inserted and the paperId is returned.
 function select_paper($title,$con) {
-    $query = "SELECT pId FROM paper WHERE title = '{$title}";
+    $query = "SELECT pId FROM paper WHERE title = '{$title}'";
     $result = mysqli_query($con,$query) or die("Cannot execute query. ".mysqli_error($con));
     $returnarray = array();
     while($row = mysqli_fetch_array($result)) {
@@ -41,7 +48,7 @@ function select_paper($title,$con) {
     if(count($returnarray)==0) {
         $query = "INSERT INTO paper(pId,title) VALUES (DEFAULT,'{$title}')";
         mysqli_query($con,$query) or die("Cannot execute query".mysqli_error($con));
-        $query = "SELECT pId FROM person WHERE name='{$firstname}' AND lastname='{$lastname}'";
+        $query = "SELECT pId FROM paper WHERE title = '{$title}'";
         $result = mysqli_query($con,$query) or die("Cannot execute query ".mysqli_error($con));
         $returnarray = array();
         while($row = mysqli_fetch_array($result)) {
@@ -53,7 +60,7 @@ function select_paper($title,$con) {
 }
 
 //Inserts new authored tuple of paper-person.
-function insert_authored($paperID,$personId,$con) {
+function insert_authored($paperId,$personId,$con) {
     $query = "INSERT INTO authored VALUES ('{$paperId}','{$personId}')";
     mysqli_query($con,$query);
     
@@ -73,7 +80,6 @@ function insert_paper_url($network,$paperId,$url,$con) {
 //Retrieves all networks in the "network" table of the database.
 function retrieve_networks($con) {
     $query = "SELECT name FROM network";
-    $network_array = array();
     $result = mysqli_query($con,$query) or die("Cannot execute query. ".mysqli_error($con));
     $returnarray = array();
     while($row = mysqli_fetch_array($result)) {
@@ -81,6 +87,33 @@ function retrieve_networks($con) {
     }
     
     return $returnarray;
+}
+
+//Retrieve all networks this person is in.
+function retrieve_networks_person($personId,$con) {
+    $query = "SELECT name FROM network";
+    $network_array = array();
+    $result = mysqli_query($con,$query) or die("Cannot execute query. ".mysqli_error($con));
+    while($row = mysqli_fetch_array($result)) {
+        array_push($network_array,$row[0]);
+    }
+    
+    $result_array = array();
+    foreach($network_array as $network) {
+        $table_name = $network."_person";
+        $query = "SELECT CASE WHEN EXISTS (
+                    SELECT *
+                    FROM {$table_name}
+                    WHERE pId = '{$personId}'
+                    )
+                    THEN 1
+                    ELSE 0 END";
+        $result = mysqli_query($con,$query) or die("Cannot execute query. ".mysqli_error($con));
+        $in_network = mysqli_fetch_array($result)[0];
+        if($in_network) array_push($result_array,$network);                
+    }
+    return $result_array;
+    
 }
 
 //Retrieves all column names of this table.

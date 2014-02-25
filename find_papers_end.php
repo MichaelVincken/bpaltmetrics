@@ -6,7 +6,6 @@ $papers = unserialize(urldecode(mysql_real_escape_string($_POST["papers"])));
 $personId = mysql_real_escape_string($_POST["pId"]);
 //For every paper we found. $paper is an array of entrys for 1 paper.
 foreach($papers as $paper) {
-    $con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
     //For each paper_array, we first check if we have an existing paper or a new one.
     if(isset($paper[0]["current"])) {
         $paperId = $paper[0]["pId"];
@@ -31,7 +30,7 @@ foreach($papers as $paper) {
         //insert new paper in the database. This also returns an existing paper IF it was already in it.
         $title = $paper[0]["title"];
         $result = select_paper($title,$con);
-        $paperId = $result["pId"];
+        $paperId = $result[0]["pId"];
         //insert new authored tuple.
         insert_authored($paperId,$personId,$con);
         
