@@ -2,8 +2,8 @@
 $page_title = "find papers: database.";
 require_once('menu.php');
 require_once('database.php');
-$papers = unserialize(urldecode(mysql_real_escape_string($_POST["papers"])));
-$personId = mysql_real_escape_string($_POST["pId"]);
+$papers = unserialize(urldecode(($_POST["papers"])));
+$personId = ($_POST["pId"]);
 //For every paper we found. $paper is an array of entrys for 1 paper.
 foreach($papers as $paper) {
     //For each paper_array, we first check if we have an existing paper or a new one.
@@ -33,7 +33,6 @@ foreach($papers as $paper) {
         $paperId = $result[0]["pId"];
         //insert new authored tuple.
         insert_authored($paperId,$personId,$con);
-        
         foreach($paper as $entry) {
             $network = $entry["network"];
             $url = $entry["url"];

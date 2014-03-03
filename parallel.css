@@ -16,6 +16,14 @@ svg {
   stroke-width: 4;
 }
 
+.foreground path:hover {
+    fill: none;
+    stroke: blue;
+    stroke-opacity: .7;
+    stroke-width: 4;
+    
+}
+
 .brush .extent {
   fill-opacity: .3;
   stroke: #fff;

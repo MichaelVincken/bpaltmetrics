@@ -46,3 +46,12 @@ html {
     -webkit-transition: all .3s ease-in;
 }
 
+caption {
+    background:rgb(255,182,193);
+    background:rgba(255,182,193, .6);
+    
+}
+
+.nav-arrow {
+    float:left;
+}

@@ -7,8 +7,8 @@ require('scrape.php');
 
 <?php
 
-$papers = unserialize(urldecode(mysql_real_escape_string($_POST["papers"])));
-$pId = mysql_real_escape_string($_POST["pId"]);
+$papers = unserialize(urldecode(($_POST["papers"])));
+$pId = ($_POST["pId"]);
 $networks = array_keys($papers);
 $similar_papers = array();
 //Traverse trough all networks

@@ -2,12 +2,12 @@
 $page_title = "Insert Person";
 include('menu.php');
 include('scrape.php');
-$firstname =  mysql_real_escape_string($_POST["firstname"]);
-$lastname =  mysql_real_escape_string($_POST["lastname"]);
-$url = mysql_real_escape_string($_POST["url"]);
+$firstname =  ($_POST["firstname"]);
+$lastname =  ($_POST["lastname"]);
+$url = ($_POST["url"]);
 $result = google_scrape::get_person($url);
 $resultstring = urlencode(serialize($result));
-$networks = mysql_real_escape_string($_POST["networks"]);
+$networks = ($_POST["networks"]);
         
 ?>
 <form name = "frm" action="insert_person3.php" method = "post" >

@@ -4,7 +4,7 @@ include('menu.php');
 include('database.php');
 
 $metrics = unserialize(urldecode($_POST["metrics"]));
-$metric = mysql_real_escape_string($_POST["metric"]);
+$metric = ($_POST["metric"]);
 $include_missing=isset($_POST['include_missing']);
 ?>
 <h3>Change parameter.</h3>
@@ -27,5 +27,5 @@ $include_string = ($include_missing)? "0" : "1";
 $data_location = "visualise_db_data.php?include_missing=".$include_string."&metric=".$metric;
 include('parallel.php');
 
-    
+require('footer.php');    
 ?>

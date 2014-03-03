@@ -7,7 +7,8 @@ require_once('password.php');
 //$con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
 //mysqli_select_db($con,$dbname);
 try {
-$con = mysqli_connect($host,$username,$password,$dbname,$port) or die('connection to database failed.');
+    if(isset($con)) mysqli_close($con);
+    $con = mysqli_connect($host,$username,$password,$dbname,$port) or die('connection to database failed.');
 } catch (Exception $e) {
     echo  "<script>";
     echo "window.alert('Database connection failed.');";
@@ -102,131 +103,153 @@ function retrieve_networks_person($personId,$con) {
     foreach($network_array as $network) {
         $table_name = $network."_person";
         $query = "SELECT CASE WHEN EXISTS (
-                    SELECT *
-                    FROM {$table_name}
-                    WHERE pId = '{$personId}'
-                    )
-                    THEN 1
-                    ELSE 0 END";
-        $result = mysqli_query($con,$query) or die("Cannot execute query. ".mysqli_error($con));
-        $in_network = mysqli_fetch_array($result)[0];
-        if($in_network) array_push($result_array,$network);                
-    }
-    return $result_array;
+        SELECT *
+        FROM {$table_name}
+        WHERE pId = '{$personId}'
+    )
+    THEN 1
+    ELSE 0 END";
+    $result = mysqli_query($con,$query) or die("Cannot execute query. ".mysqli_error($con));
+    $in_network = mysqli_fetch_array($result)[0];
+    if($in_network) array_push($result_array,$network);                
+}
+return $result_array;
     
 }
 
 //Retrieves all column names of this table.
 function retrieve_columns($table, $con) {
-    $query = "describe " . $table;
-    $result = mysqli_query($con,$query) or die("Cannot retrieve columns. ".mysqli_error($con));
-    $resultarray = array();    
-    while($row = mysqli_fetch_array($result)) {
-        array_push($resultarray,$row);
-    }
+$query = "describe " . $table;
+$result = mysqli_query($con,$query) or die("Cannot retrieve columns. ".mysqli_error($con));
+$resultarray = array();    
+while($row = mysqli_fetch_array($result)) {
+    array_push($resultarray,$row);
+}
     
-    $returnarray = array();
-    foreach ($resultarray as $col) {
-        array_push($returnarray,$col[0]);
-    }
+$returnarray = array();
+foreach ($resultarray as $col) {
+    array_push($returnarray,$col[0]);
+}
     
-    return $returnarray;
+return $returnarray;
 }
 
 //Looks if a first and lastname are already in the database.
 function already_in_database($firstname,$lastname,$con) {
-    $query = "SELECT * FROM person WHERE name = '{$firstname}' AND lastname = '{$lastname}'";
-    $result = mysqli_query($con,$query) or die("Cannot execute query".mysqli_error($con));
-    $resultarray = array();    
-    while($row = mysqli_fetch_array($result)) {
-        array_push($resultarray,$row);
-    }
-    if(count($resultarray) > 0) {
-        return 1;
-    } else {
-        return 0;
-    }   
+$query = "SELECT * FROM person WHERE name = '{$firstname}' AND lastname = '{$lastname}'";
+$result = mysqli_query($con,$query) or die("Cannot execute query".mysqli_error($con));
+$resultarray = array();    
+while($row = mysqli_fetch_array($result)) {
+    array_push($resultarray,$row);
+}
+if(count($resultarray) > 0) {
+    return 1;
+} else {
+    return 0;
+}   
 }
 
 //Insert URL insert URL in $network_name or does nothing when the url has already been linked with $pId
 function insert_url($pId,$network_name,$url,$con) {
-    $table_name = $network_name."_url";
-    $query = "SELECT * FROM {$table_name} WHERE pId = '{$pId}' AND url = '{$url}'";
-    $result = mysqli_query($con,$query) or die('Cannot insert url. '.mysqli_error($con));
-    $resultarray = array();
-    while($row = mysqli_fetch_array($result)) {
-        array_push($resultarray,$row);
-    }
-    if(count($resultarray) > 0) {
-    } else {
-        $query = "INSERT INTO {$table_name}(pId,url) VALUES ('{$pId}','{$url}') ";
-        mysqli_query($con,$query) or die("Cannot insert url. ".mysqli_error($con));
-    }   
+$table_name = $network_name."_url";
+$query = "SELECT * FROM {$table_name} WHERE pId = '{$pId}' AND url = '{$url}'";
+$result = mysqli_query($con,$query) or die('Cannot insert url. '.mysqli_error($con));
+$resultarray = array();
+while($row = mysqli_fetch_array($result)) {
+    array_push($resultarray,$row);
+}
+if(count($resultarray) > 0) {
+} else {
+    $query = "INSERT INTO {$table_name}(pId,url) VALUES ('{$pId}','{$url}') ";
+    mysqli_query($con,$query) or die("Cannot insert url. ".mysqli_error($con));
+}   
 }
 
 //checks all tables of all networks for all metrics that can be compared:: have two or more occurences.
 function get_all_comparable_metrics($con) {
-    $network_names = array();
-    $network_names = retrieve_networks($con);
-    $metrics_array = array();
-    foreach ($network_names as $network) {
-        $retrieved_columns = retrieve_columns($network."_person",$con);
-        for($i=3;$i < count($retrieved_columns); $i++) {
-            array_push($metrics_array, $retrieved_columns[$i]);
-        }     
-    }
-    $count_array = array_count_values($metrics_array);
+$network_names = array();
+$network_names = retrieve_networks($con);
+$metrics_array = array();
+foreach ($network_names as $network) {
+    $retrieved_columns = retrieve_columns($network."_person",$con);
+    for($i=3;$i < count($retrieved_columns); $i++) {
+        array_push($metrics_array, $retrieved_columns[$i]);
+    }     
+}
+$count_array = array_count_values($metrics_array);
     
-    arsort($count_array);
-    var_dump($count_array);
-    $return_array = array();
-    foreach($count_array as $metric => $value) {
-        if($value >= 2) {
-            if($metric != "study_field")array_push($return_array,$metric);
-        } else {
-            break;
-        }
+arsort($count_array);
+var_dump($count_array);
+$return_array = array();
+foreach($count_array as $metric => $value) {
+    if($value >= 2) {
+        if($metric != "study_field")array_push($return_array,$metric);
+    } else {
+        break;
     }
+}
         
-    return $return_array;
+return $return_array;
         
 }
 
 function retrieve_persons($con) {
-    $query = "SELECT pId, name, lastName FROM person";
-    $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
-    $resultarray = array();
-    while($row = mysqli_fetch_array($result)) {
-        array_push($resultarray,$row);
-    }
-    return $resultarray;
+$query = "SELECT pId, name, lastName FROM person";
+$result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
+$resultarray = array();
+while($row = mysqli_fetch_array($result)) {
+    array_push($resultarray,$row);
+}
+return $resultarray;
 }
 
+/** Retrieve all persons who have authored at least one paper.
+*/
+function retrieve_persons_with_papers($con) {
+$query = "SELECT pId, name, lastName FROM person WHERE EXISTS (SELECT personId FROM Authored WHERE person.pId = personId)";
+    $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
+$resultarray = array();
+while($row = mysqli_fetch_array($result)) {
+    array_push($resultarray,$row);
+}
+return $resultarray;
+    
+    
+}
+
+/*
+* Retrieve all papers.
+*/
 function retrieve_papers($con) {
-    $con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
-    $query = "SELECT pId, title FROM paper";
-    $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
-    $resultarray = array();
-    while($row = mysqli_fetch_array($result)) {
-        $row["network"] = "current";
-        array_push($resultarray,$row);
-    }
-    return $resultarray;
+$con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+$query = "SELECT pId, title FROM paper";
+$result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
+$resultarray = array();
+while($row = mysqli_fetch_array($result)) {
+    $row["network"] = "current";
+    array_push($resultarray,$row);
+}
+return $resultarray;
     
 }
 
+/*
+* Retrieve all urls of this person for this network.
+*/
 function retrieve_urls($pId,$network,$con) {
-    $con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+$con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
     
-    $table = $network."_url";
-    $query = "SELECT url FROM {$table} WHERE pId = '{$pId}'";
-    $result = mysqli_query($con,$query) or die('Cannot retrieve url. '.mysqli_error($con));
-    $resultarray = array();
-    while($row = mysqli_fetch_array($result)) {
-        array_push($resultarray,$row[0]);
-    }
-    return $resultarray;
+$table = $network."_url";
+$query = "SELECT url FROM {$table} WHERE pId = '{$pId}'";
+$result = mysqli_query($con,$query) or die('Cannot retrieve url. '.mysqli_error($con));
+$resultarray = array();
+while($row = mysqli_fetch_array($result)) {
+    array_push($resultarray,$row[0]);
 }
+return $resultarray;
+}
+
+
 
 /*
 *   $con
@@ -278,21 +301,46 @@ function parallel($con,$metric,$left_join) {
         array_push($resultarray,$row);
     }
     //Only return data that is needed.
+    
     $return_array = array();
     foreach($resultarray as $result) {
         $array = array();
         $array["name"] = $result["firstname"]. " ".$result["lastname"] ;
         foreach($networks as $network) {
             if(in_array($metric,retrieve_columns($network."_person",$con))) {
-            $array[$network] = $result[$network];
-        }
+                $array[$network] = $result[$network];
+            }
         }
         array_push($return_array,$array);
     }
     
     return $return_array;
+       
+}
+//Gets the papers that are in all the included networks and in non of the excluded networks.
+function getPapersFromNetworks($included,$excluded,$pId,$con) {
+    $query = "SELECT paper.pId,paper.title FROM paper WHERE ";
+    $strings = array();
+    foreach($included as $include) {
+        $table_name = $include."_url_paper";
+        array_push($strings,"EXISTS (SELECT pId FROM ".$table_name." WHERE paper.pId = pId)");
+    }
+    foreach($excluded as $exclude) {
+        $table_name = $exclude."_url_paper";
+        array_push($strings,"NOT EXISTS (SELECT pId FROM ".$table_name." WHERE paper.pId = pId)");
+    }
+    $str_and = implode(" AND ", $strings);
+    $str_person = " AND EXISTS (SELECT paperId FROM Authored WHERE paperId = paper.pId AND personId = '{$pId}')";
+    $query = $query.$str_and.$str_person;
+    
+    $result = mysqli_query($con,$query) or trigger_error('Cannot retrieve papers. '.mysqli_error($con));
+    $resultarray = array();
+    while($row = mysqli_fetch_array($result)) {
+        array_push($resultarray,$row);
+    }
+    return $resultarray;
     
     
-        
+    
 }
 ?>

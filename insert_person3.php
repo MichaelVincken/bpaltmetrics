@@ -13,12 +13,12 @@ foreach($checkboxes as $person) {
 
 // If the user selected multiple persons
 // if-else mag straks weg wanneer straks de if volledig dynamisch werkt
-$firstname = mysql_real_escape_string($_POST["firstnames"][0]);
-$lastname = mysql_real_escape_string($_POST["lastnames"][0]);
+$firstname = ($_POST["firstnames"][0]);
+$lastname = ($_POST["lastnames"][0]);
     
 // Retrieve all the information from POST
 for($i=0;$i<$numberOfPersons;$i++) {
-    $url[$i] = mysql_real_escape_string($_POST["urls"][$i]);
+    $url[$i] = ($_POST["urls"][$i]);
 }
 
 //Retrieve pId:
@@ -27,7 +27,7 @@ $pId = $person_array[0]["pId"];
            
 
 // Specifics for the current network for this person
-$network_string =  mysql_real_escape_string($_POST["networks"][0]);
+$network_string =  ($_POST["networks"][0]);
 $network_array = unserialize(urldecode($network_string));
 $network_name = array_shift($network_array);
 

@@ -8,10 +8,10 @@ include_once('database.php');
 /**
  * Retrieve data from POST
  */
-$firstname = ucfirst(mysql_real_escape_string($_POST["firstname"]));
-$lastname = ucfirst(mysql_real_escape_string($_POST["lastname"]));
+$firstname = ucfirst($_POST["firstname"]);
+$lastname = ucfirst($_POST["lastname"]);
         
-$network_string = mysql_real_escape_string($_POST["networks"]);
+$network_string = ($_POST["networks"]);
 $network_array = unserialize(urldecode($network_string));
 
 try{
