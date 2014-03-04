@@ -38,7 +38,9 @@ foreach($new_set_array as $set) {
     $set_records[$set_string] = getPapersFromNetworks($set[0],$set[1],$pId,$con);
 }
 //Venn diagram?
-include('ven_diagram.php');
+$venn_nr_sets = count($networks);
+
+include('venn_diagram.php');
 //Printing to table
 
 ?>
