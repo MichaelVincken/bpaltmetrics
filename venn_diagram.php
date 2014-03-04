@@ -1,4 +1,25 @@
-<div align="center" class="venn"></div>
+<div align="center" class="venn">
+    <table align = "left" vertical-align="middle" >
+        <theader>
+            <th>network</th>
+            <th>amount</th>
+        </theader> 
+        <tbody>
+            <?php
+            foreach($set_records as $name =>$array) {
+                ?>
+                <tr><td>
+                <?php
+                echo $name;
+                echo "</td><td>";
+                echo count($array);
+                echo "</td></tr>";
+            }
+                
+            ?>
+        </tbody>
+     </table>
+</div>
 
 
 <script type="text/javascript" src="d3.min.js"></script>

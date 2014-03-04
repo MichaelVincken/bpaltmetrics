@@ -6,6 +6,16 @@ html {
     float:right;
     font-size:20px;
     border:2px solid black;
+    border-radius:10px;
+}
+
+#question:hover {
+    background:black;
+    color:white;
+    -moz-transition: all .3s ease-in;
+    -o-transition: all .3s ease-in;
+    -webkit-transition: all .3s ease-in;
+    
 }
 
 #nav {
@@ -60,4 +70,18 @@ caption {
 
 .nav-arrow {
     float:left;
+}
+
+#pup {
+  position:absolute;
+  z-index:200; /* aaaalways on top*/
+  padding: 3px;
+  margin-left: 10px;
+  margin-top: 5px;
+  width: 250px;
+  border: 1px solid black;
+  border-radius:10px;
+  background-color: #777;
+  color: white;
+  font-size: 0.95em;
 }

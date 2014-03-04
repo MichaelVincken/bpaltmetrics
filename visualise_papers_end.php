@@ -1,8 +1,15 @@
 <?php
+
+
+
+
 $page_title = "visualise papers";
 require('menu.php');
 require('database.php');
 
+//Help mouseover:
+$mouseOverString = "This page displays the papers of 1 individual. The distribution of the papers accross different networks has been calculated for you. The data displays papers that are only found in the network(s) that are specified. A network that is empty can contain several papers, but only papers another network also contains.";
+include('tooltip.php');
 $pId = ($_POST["pId"]);
 //retrieve networks relevant for this user.
 $networks = retrieve_networks_person($pId,$con);
