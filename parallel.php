@@ -1,7 +1,7 @@
 <style type="text/css" media="all">
    @import "parallel.css";
 </style>
-<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.5.0"></script>
+<script type="text/javascript" src="d3.min.js"></script>
     <script type="text/javascript">
     //padding en canvasgrootte
     var m = [30, 10, 10, 50],

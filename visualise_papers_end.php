@@ -31,6 +31,7 @@ foreach($set_array as $set) {
     $array[1]=array_diff($networks,$set);
     array_push($new_set_array,$array);
 }
+sort($new_set_array);
 //Get actual records.
 $set_records = array();
 foreach($new_set_array as $set) {
@@ -39,6 +40,43 @@ foreach($new_set_array as $set) {
 }
 //Venn diagram?
 $venn_nr_sets = count($networks);
+$sets = array();
+
+for($i = 0;$i<$venn_nr_sets;$i++) {
+    $set_name = array_keys($set_records)[$i];
+    //Calculate how many papers in total in the network.
+    $numberOfPapers = count(getPapersFromNetworks([$set_name],array(),$pId,$con));
+    array_push($sets,'{label: "'.$set_name.'" ,size: '.$numberOfPapers.'}');
+}
+$sets = implode(', ',$sets);
+$sets = '['.$sets.']';
+
+
+//Calculate sets with numbers.
+$elements = range(0,count($networks)-1);
+$array_numbers = array();
+//Loop through each possible combination   
+for ($i = 0; $i < pow(2, count($elements)); $i++) {   
+    //For each combination check if each bit is set  
+    $array = array();
+    for ($j = 0; $j < count($elements); $j++) {  
+       //Is bit $j set in $i?  
+        if (pow(2, $j) & $i) {
+            array_push($array,$elements[$j]);  
+            }     
+    }  
+   array_push($array_numbers,$array);  
+}
+sort($array_numbers);
+//Keep only those relevant for the overlapping.
+$array_numbers = array_slice($array_numbers,1);
+$overlaps = array();
+for($i = $venn_nr_sets; $i < count($array_numbers); $i++) {
+    $set_name = implode(",",$array_numbers[$i]);
+    array_push($overlaps,'{sets: ['.$set_name.'],size: '.count($set_records[array_keys($set_records)[$i]]).'}');
+}
+$overlaps = '['.implode(', ',$overlaps).']';
+
 
 include('venn_diagram.php');
 //Printing to table

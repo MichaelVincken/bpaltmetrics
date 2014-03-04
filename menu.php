@@ -10,8 +10,9 @@
             <li><a href="insert_person1.php">Insert Person</a></li>
             <li><a href="visualisation_db_select_parameters.php">visualise network</a></li>
             <li><a href="find_papers.php">Search papers</a></li>
-            <li><a href="#">Item 4</a></li>
+            <li><a href="visualise_papers_select_parameter.php">Visualise papers</a></li>
         </ul>
+        <div id="question">?</div>
         
         <?php
         set_error_handler("warning_handler", E_WARNING);
