@@ -11,7 +11,12 @@
                 <tr><td>
                 <?php
                 echo $name;
-                echo "</td><td>";
+                echo "</td>";
+                    if(count($array)>0) {
+                        echo "<td>";
+                    } else {
+                        echo "<td class='tooltip'>";
+                    }
                 echo count($array);
                 echo "</td></tr>";
             }

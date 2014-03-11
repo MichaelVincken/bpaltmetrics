@@ -295,6 +295,7 @@ function parallel($con,$metric,$left_join) {
     }
     //make everything into one giant query.
     $query = $select." FROM person ".$join." ".$where;
+    var_dump($query);
     $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
     $resultarray = array();
     while($row = mysqli_fetch_array($result)) {

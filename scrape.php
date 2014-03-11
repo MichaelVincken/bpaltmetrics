@@ -265,6 +265,91 @@ class citeseer_scrape {
     }
 }
 
+class acm_scrape {
+    public static function get_person($url) {
+        include_once("simple_html_dom.php");
+        $html = file_get_html($url);
+        //Affiliation
+        $ret = $html->find('td.small-text div[align] a');
+        $result_array = array();
+        $affiliation_array = array();
+        foreach($ret as $r) {
+            array_push($affiliation_array,html_entity_decode($r->plaintext));
+        }
+        $result_array["affiliation"] = implode(" and ",$affiliation_array);
+        //Name
+        $ret = $html->find('td[style] span.small-text strong');
+        $result_array["name"] = html_entity_decode($ret[0]->plaintext);
+        //metrics:
+        $ret = $html->find('table tbody tr td table tbody tr[valign] td table tbody tr td.small-text table tbody tr td.small-text');
+        $result_array["publications"] = intval(str_replace(',','',$ret[3]->plaintext));
+        $result_array["citations"] = intval(str_replace(',','',$ret[5]->plaintext));
+        $result_array["downloads"] = intval(str_replace(',','',$ret[13]->plaintext));
+        
+        return $result_array;
+    }
+    
+    public static function search_person($name, $lastname) {
+        include_once("simple_html_dom.php");
+        $lastname = explode(' ',$lastname);
+    	$search_string = implode('+',$lastname);
+        $url = "http://dl.acm.org/results.cfm?adv=1&COLL=DL&qrycnt=2215510&DL=ACM&Go.x=44&Go.y=12&peoplezone=Author&people=".$name."+".$search_string."&peoplehow=and";
+        $html = file_get_html($url);
+        $ret = $html->find('div.authors a');
+        $url_array = array();
+        foreach($ret as $r) {
+            $url = html_entity_decode($r->href);
+            preg_match("/id=(\d*)&/", $url, $matches);
+            $id = $matches[1];
+            $url = "http://dl.acm.org/author_page.cfm?id=".$id;
+            array_push($url_array,$url);
+        }
+        $count = array_count_values($url_array);
+        arsort($count);
+        //select highest two.
+        $highest_two = array_slice($count,0,2);
+        //return array: get keys from highest_two
+        $return_array = array();
+        foreach($highest_two as $key=>$value) {
+            array_push($return_array,$key);
+        }
+        return $return_array;
+    }
+    
+    public static function search_papers($url) {
+        include_once("simple_html_dom.php");
+        $url = $url."&perpage=all";
+        $html = file_get_html($url);
+        $ret = $html->find('body div table tbody tr td table tbody tr td table tbody tr td table tbody tr td table tbody tr td[colspan] a.medium-text');
+        $intermediate_result_array = array();
+        foreach($ret as $r) {
+             $title = html_entity_decode($r->plaintext);
+             $url = html_entity_decode($r->href);
+             preg_match("/id=((\d|\.)*)&/", $url, $matches);
+             $id = $matches[1];
+             $url = "http://dl.acm.org/citation.cfm?id=".$id;
+             $array = array();
+             $array["title"] = $title;
+             $array["url"] = $url;
+             array_push($intermediate_result_array,$array);
+        }
+        $ret = $html->find('body div table tbody tr td table tbody tr td table tbody tr td table tbody tr td table tbody tr td table tbody tr td.small-text');
+        $result_array = array();
+        for ($i = 0;$i < count($ret); $i++) {
+            $r = $ret[$i];
+            $string =  html_entity_decode($r->plaintext,ENT_HTML5,"ISO-8859-1");
+            $array = $intermediate_result_array[$i];
+            preg_match("/Downloads \(12 Months\): (.*),/", $string, $matches);
+            $array["downloads"] = intval(str_replace(',','',$matches[1]));
+            preg_match("/Citation Count: (.*)/", $string, $matches);
+            $array["citations"] = intval(str_replace(',','',$matches[1]));;
+            $array["network"] = "acm";
+            array_push($result_array,$array);
+        }
+        return $result_array;
+    }
+}
+
 // Google Scholar
 //var_dump(Google_scrape::get_person("http://scholar.google.com/citations?user=PZURMD0AAAAJ"));
 //var_dump(Google_scrape::search_person("Erik","Duval"));
@@ -282,5 +367,9 @@ class citeseer_scrape {
 //Microsoft
 //var_dump(microsoft_scrape::search_papers("http://academic.research.microsoft.com/Author/1406490/erik-duval?query=erik%20duval"));
 
+//ACM
+//var_dump(acm_scrape::get_person(""));
+//var_dump(acm_scrape::search_person("ERik","duval"));
+//var_dump(acm_scrape::search_papers("http://dl.acm.org/author_page.cfm?id=81100325487"));
 ?>
 

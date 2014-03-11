@@ -20,8 +20,7 @@ foreach($networks as $network) {
     foreach($urls as $url) {
         try{
         $papers[$network] = call_user_func_array($network.'_scrape'.'::search_papers',array($url));
-        var_dump($papers[$network]);
-        } catch (Exception $e) {
+    } catch (Exception $e) {
             echo "<script>";
             echo "window.alert('could not reach: ".$network.")";
             echo "</script>";

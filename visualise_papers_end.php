@@ -14,7 +14,6 @@ $pId = ($_POST["pId"]);
 //retrieve networks relevant for this user.
 $networks = retrieve_networks_person($pId,$con);
 //Now calculate each set.
-
 //First calculate which networks each set has to have.
 $set_array = array();
 //Loop through each possible combination   
@@ -84,8 +83,12 @@ for($i = $venn_nr_sets; $i < count($array_numbers); $i++) {
 }
 $overlaps = '['.implode(', ',$overlaps).']';
 
-
+//Printing the image
 include('venn_diagram.php');
+if(count($networks) > 3) {
+    echo '<strong style="color:red;">Beware! visualisation of more than three networks is not always as accurate as one would like.</strong>';
+}
+
 //Printing to table
 
 ?>
@@ -99,7 +102,13 @@ foreach($set_records as $title=>$data) {
     <table style = "width: 95%">
         <caption class = "<?php echo $table ?>">
             <div id="<?php echo $table."_arrow" ?>" class="nav-arrow">▼</div>
-            <?php echo $title ?>
+            <?php
+            if(count($data)>0) {
+                echo $title;
+            } else {
+                echo "<div class='tooltip'>".$title."</div>";
+            }
+            ?>
         </caption>
         <thead>
         </thead>
