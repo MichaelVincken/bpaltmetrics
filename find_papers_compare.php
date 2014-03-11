@@ -32,7 +32,7 @@ for($i=0;$i<count($networks);$i++) {
                         //compare
                         //text is very similar OR text is substring of other text.
                         similar_text($paper["title"],$other["title"],$percentage);
-                        if(($percentage > 80)) {
+                        if(($percentage > 85)) {
                             array_push($similar_array,$other);
                             unset($papers[$networks[$j]][$o]);
                         }
@@ -45,6 +45,8 @@ for($i=0;$i<count($networks);$i++) {
     }
     
 }
+
+
 ?>
 Please be patient, all papers need to be inserted in the databse.
 <form name="auto_form" action="find_papers_end.php" method="post">

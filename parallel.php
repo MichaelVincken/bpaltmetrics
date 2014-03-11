@@ -123,7 +123,7 @@
     function path(d) {
       return line(dimensions.map(function(p) {
         // check for undefined values
-        if (d[p] == " ") return [x(p), null];
+        if (d[p] == " "||d[p]=="NULL"||d[p]==null) return [x(p), null];
 
         return [x(p), y[p](d[p])];
       }));

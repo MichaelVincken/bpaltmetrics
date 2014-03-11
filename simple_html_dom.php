@@ -1094,6 +1094,15 @@ class simple_html_dom
 	function load_file()
 	{
 		$args = func_get_args();
+    	$opts = array(
+    		'http'=>array(
+    			'method'=>"GET",
+    			'header'=>"Accept-language: en\r\n" .
+    			"User-Agent: 	Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6\r\n".
+    			"Cookie: foo=bar\r\n"
+    		)
+    	);
+        
 		$this->load(call_user_func_array('file_get_contents', $args), true);
 		// Throw an error if we can't properly load the dom.
 		if (($error=error_get_last())!==null) {

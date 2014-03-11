@@ -1,4 +1,3 @@
 <?php
 require('database.php');
-parallel($con,"citations",TRUE);
-?>
+var_dump(retrieve_urls(20,"microsoft",$con))?>

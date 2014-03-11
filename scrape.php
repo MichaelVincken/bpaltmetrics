@@ -247,7 +247,6 @@ class citeseer_scrape {
     
     public static function search_papers($url) {
         include_once("simple_html_dom.php");
-        $url =  "http://citeseerx.ist.psu.edu/viewauth/summary?aid=62171";
         $url = $url . "&list=full";
         $html = file_get_html($url);
         $ret = $html->find('#viewContent #viewContent-inner .refs tr');
@@ -335,19 +334,45 @@ class acm_scrape {
         }
         $ret = $html->find('body div table tbody tr td table tbody tr td table tbody tr td table tbody tr td table tbody tr td table tbody tr td.small-text');
         $result_array = array();
-        for ($i = 0;$i < count($ret); $i++) {
+        $i = 0;
+        $j = 0;
+        while($i < count($ret)) {
             $r = $ret[$i];
             $string =  html_entity_decode($r->plaintext,ENT_HTML5,"ISO-8859-1");
-            $array = $intermediate_result_array[$i];
+            $array = $intermediate_result_array[$j];
             preg_match("/Downloads \(12 Months\): (.*),/", $string, $matches);
+            if(isset($matches[1])) {
             $array["downloads"] = intval(str_replace(',','',$matches[1]));
+            
             preg_match("/Citation Count: (.*)/", $string, $matches);
-            $array["citations"] = intval(str_replace(',','',$matches[1]));;
+            $array["citations"] = intval(str_replace(',','',$matches[1]));
             $array["network"] = "acm";
             array_push($result_array,$array);
+            $j++;
+            $i++;
+            } else {
+                $i++;
+            }
         }
         return $result_array;
     }
+}
+
+class scopus_scrape {
+    public static function get_person($url) {
+        include_once("simple_html_dom.php");
+        $html = file_get_html($url);
+        var_dump($html->plaintext);
+        $ret = $html->find('body');
+        $result_array = array();
+        $result_array["name"] = $ret[0]->plaintext;
+         var_dump($ret);   
+            
+        return $result_array;
+    }
+        
+    
+    
 }
 
 // Google Scholar
@@ -365,11 +390,14 @@ class acm_scrape {
 //var_dump(google_scrape::search_person("matthijs","van leeuwen"));
 
 //Microsoft
-//var_dump(microsoft_scrape::search_papers("http://academic.research.microsoft.com/Author/1406490/erik-duval?query=erik%20duval"));
+//var_dump(microsoft_scrape::search_papers("http://academic.research.microsoft.com/Author/1499065/philip-dutr"));
 
 //ACM
 //var_dump(acm_scrape::get_person(""));
 //var_dump(acm_scrape::search_person("ERik","duval"));
-//var_dump(acm_scrape::search_papers("http://dl.acm.org/author_page.cfm?id=81100325487"));
+//var_dump(acm_scrape::search_papers("http://dl.acm.org/author_page.cfm?id=81100172909"));
+
+//SCOPUS
+var_dump(scopus_scrape::get_person("http://www.scopus.com/authid/detail.url?authorId=7006487422"));
 ?>
 

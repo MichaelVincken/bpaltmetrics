@@ -23,7 +23,7 @@ $include_missing=isset($_POST['include_missing']);
 </form>
 <h3>Visualization: <?php echo $metric?></h3>
 <?php
-$include_string = ($include_missing)? "0" : "1";
+$include_string = ($include_missing)? "1" : "0";
 $data_location = "visualise_db_data.php?include_missing=".$include_string."&metric=".$metric;
 include('parallel.php');
 

@@ -237,7 +237,7 @@ return $resultarray;
 * Retrieve all urls of this person for this network.
 */
 function retrieve_urls($pId,$network,$con) {
-$con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+$con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Connection failed.');
     
 $table = $network."_url";
 $query = "SELECT url FROM {$table} WHERE pId = '{$pId}'";
@@ -263,23 +263,22 @@ function parallel($con,$metric,$left_join) {
     foreach($networks as $network) {
         if(in_array($metric,retrieve_columns($network."_person",$con))) {
             $array[$network."_select"] = $network."_person". ".pId, ". $network."_person.`".$metric."` as `".$network."`";
-            $array[$network."_join"] = $network."_person on person.pId = ".$network."_person.pId";
-            $array[$network."_where"] = $network."_person.Date >= ALL(SELECT Date FROM ".$network."_person WHERE ".$network."_person.pId = person.pID)";
+            $array[$network."_join"] = $network."_person on person.pId = ".$network."_person.pId AND ".$network."_person.Date >= ALL(SELECT Date FROM ".$network."_person WHERE ".$network."_person.pId = person.pID)";
         }     
     }
     $select = "SELECT person.pId, person.name as firstname, person.lastname, ";
     $join = "";
-    $where = "WHERE ";
+    //$where = "WHERE ";
     $select_array = array();
-    $where_array = array();
+    //$where_array = array();
     foreach($networks as $network) {
         if(in_array($metric,retrieve_columns($network."_person",$con))) {
             array_push($select_array,$array[$network."_select"]);
-            array_push($where_array,$array[$network."_where"]);
+            //array_push($where_array,$array[$network."_where"]);
         }
     }
     $select = $select.implode(", ",$select_array);
-    $where = $where.implode(" AND ",$where_array);
+    //$where = $where.implode(" AND ",$where_array);
     if($left_join) {
         foreach($networks as $network) {
             if(in_array($metric,retrieve_columns($network."_person",$con))) {
@@ -294,8 +293,7 @@ function parallel($con,$metric,$left_join) {
         }
     }
     //make everything into one giant query.
-    $query = $select." FROM person ".$join." ".$where;
-    var_dump($query);
+    $query = $select." FROM person ".$join;
     $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
     $resultarray = array();
     while($row = mysqli_fetch_array($result)) {
