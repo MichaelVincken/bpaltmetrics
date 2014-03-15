@@ -1,10 +1,11 @@
 
 <?php
 $page_title = "Insert Person";
-include('menu.php');
-include('database.php');
+include('/home/thesis-std/menu.php');
+include('/home/thesis-std/database.php');
 $networks = urlencode(serialize(retrieve_networks($con)));
 ?>
+lala
 <form action="insert_person2.php" method="post">
     First name: <input type="text" placeholder= "given name" name="firstname" autofocus="autofocus"><br>
     Last name: <input type="text" placeholder= "family name" name="lastname"><br>
@@ -14,5 +15,5 @@ $networks = urlencode(serialize(retrieve_networks($con)));
     <input type="submit" value="submit"/>
 </form>
 <?php
-include('footer.php');
+include('/home/thesis-std/footer.php');
 ?>

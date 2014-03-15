@@ -1,7 +1,7 @@
 <?php
 $page_title = "Checkbox";
-require_once('menu.php');
-require_once('database.php');
+require_once('/home/thesis-std/menu.php');
+require_once('/home/thesis-std/database.php');
 
 $checkboxes = isset($_POST['persons']) ? $_POST['persons'] : array();
 $numberOfPersons = count($checkboxes);
@@ -90,5 +90,5 @@ document.auto_form.submit();
 </script> 
 <?php
 
-include('footer.php')
+include('/home/thesis-std/footer.php')
     ?>

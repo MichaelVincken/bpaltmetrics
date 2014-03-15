@@ -1,7 +1,7 @@
 <?
 $page_title = "visualisation whole network";
-include('menu.php');
-include('database.php');
+include('/home/thesis-std/menu.php');
+include('/home/thesis-std/database.php');
 
 $metrics = unserialize(urldecode($_POST["metrics"]));
 $metric = ($_POST["metric"]);
@@ -27,5 +27,5 @@ $include_string = ($include_missing)? "1" : "0";
 $data_location = "visualise_db_data.php?include_missing=".$include_string."&metric=".$metric;
 include('parallel.php');
 
-require('footer.php');    
+require('/home/thesis-std/footer.php');    
 ?>

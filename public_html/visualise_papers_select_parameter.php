@@ -1,7 +1,7 @@
 <?php
 $page_title = "visualise papers";
-require('menu.php');
-require('database.php');
+require('/home/thesis-std/menu.php');
+require('/home/thesis-std/database.php');
 
 $persons = retrieve_persons_with_papers($con);
 ?>
@@ -17,5 +17,5 @@ $persons = retrieve_persons_with_papers($con);
     
 
 <?php
-require('footer.php');
+require('/home/thesis-std/footer.php');
 ?>

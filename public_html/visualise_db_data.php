@@ -1,5 +1,5 @@
 <?php
-require_once('database.php');    
+require_once('/home/thesis-std/database.php');    
 if(isset($_GET['metric'])) {
     $metric = $_GET['metric'];
 } else {

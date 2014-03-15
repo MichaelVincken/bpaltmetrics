@@ -1,7 +1,7 @@
 <?php
 $page_title = "find papers: database.";
-require_once('menu.php');
-require_once('database.php');
+require_once('/home/thesis-std/menu.php');
+require_once('/home/thesis-std/database.php');
 $papers = unserialize(urldecode(($_POST["papers"])));
 $personId = ($_POST["pId"]);
 //For every paper we found. $paper is an array of entrys for 1 paper.
@@ -56,5 +56,5 @@ foreach($papers as $paper) {
 echo "all papers where inserted in the database.";    
     
     
-require_once('footer.php');    
+require_once('/home/thesis-std/footer.php');    
 ?>

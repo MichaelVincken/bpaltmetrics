@@ -1,9 +1,9 @@
 
 <?php   
 $page_title = "find papers";
-require('menu.php');
-require('database.php');
-require('scrape.php');
+require('/home/thesis-std/menu.php');
+require('/home/thesis-std/database.php');
+require('/home/thesis-std/scrape.php');
 ?>
 
 <?php

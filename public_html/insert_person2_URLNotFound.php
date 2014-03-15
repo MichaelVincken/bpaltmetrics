@@ -1,7 +1,7 @@
 <?php
 $page_title = "Insert Person";
-include('menu.php');
-include('scrape.php');
+include('/home/thesis-std/menu.php');
+include('/home/thesis-std/scrape.php');
 $firstname =  ($_POST["firstname"]);
 $lastname =  ($_POST["lastname"]);
 $url = ($_POST["url"]);
@@ -22,4 +22,4 @@ document.frm.submit();
 </script>
 <tbody>
 
-<?php include("footer.php")?>
+<?php include("/home/thesis-std/footer.php")?>

@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <link type = "text/css" rel = "stylesheet" href = "visual.css" />
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
         <title>Proof of concept</title>
         <style type="text/css">
@@ -45,8 +44,8 @@
     </head>
     <body>
         <?php
-            include('login.php');
-            include('menu.php');    
+            include('/home/thesis-std/login.php');
+            include('/home/thesis-std/menu.php');    
         ?>
         <h2> Proof of concept: parrallel coordinates van manueel verzamelde citatiegegevens.</h2>
         <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.5.0"></script>

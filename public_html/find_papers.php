@@ -1,7 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+
 $page_title = "find papers";
-require('menu.php');
-require('database.php');
+include('/home/thesis-std/menu.php');
+require('/home/thesis-std/database.php');
 
 $persons = retrieve_persons($con);
 ?>
@@ -17,5 +19,5 @@ $persons = retrieve_persons($con);
     
 
 <?php
-require('footer.php');
+include('/home/thesis-std/footer.php');
 ?>

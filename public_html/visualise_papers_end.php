@@ -4,8 +4,8 @@
 
 
 $page_title = "visualise papers";
-require('menu.php');
-require('database.php');
+require('/home/thesis-std/menu.php');
+require('/home/thesis-std/database.php');
 
 //Help mouseover:
 $mouseOverString = "This page displays the papers of 1 individual. The distribution of the papers accross different networks has been calculated for you. The data displays papers that are only found in the network(s) that are specified. A network that is empty can contain several papers, but only papers another network also contains.";
@@ -146,5 +146,5 @@ foreach($set_records as $title=>$data) {
 
 
 <?php
-require('footer.php');
+require('/home/thesis-std/footer.php');
 ?>

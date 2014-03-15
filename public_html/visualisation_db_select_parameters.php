@@ -1,7 +1,7 @@
-<?
+<?php
 $page_title = "visualisation whole network: select parameter";
-include('menu.php');
-include('database.php');
+include('/home/thesis-std/menu.php');
+include('/home/thesis-std/database.php');
 
 ?>
 <h3>Select the Metric you want to use to visualize the database.</h3>
@@ -20,4 +20,4 @@ include('database.php');
     
 </form>
 
-<?php include('footer.php') ?>
+<?php include('/home/thesis-std/footer.php') ?>
