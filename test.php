@@ -1,3 +1,9 @@
 <?php
-require('database.php');
-var_dump(retrieve_urls(20,"microsoft",$con))?>
+$pId = ($_POST["pId"]);
+//retrieve networks relevant for this user.
+$networks = $_POST["networks"];
+var_dump($pId);
+var_dump($networks);
+
+
+?>

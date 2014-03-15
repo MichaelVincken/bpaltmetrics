@@ -12,7 +12,7 @@ $mouseOverString = "This page displays the papers of 1 individual. The distribut
 include('tooltip.php');
 $pId = ($_POST["pId"]);
 //retrieve networks relevant for this user.
-$networks = retrieve_networks_person($pId,$con);
+$networks = $_POST["networks"];
 //Now calculate each set.
 //First calculate which networks each set has to have.
 $set_array = array();

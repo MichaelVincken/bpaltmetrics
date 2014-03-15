@@ -5,7 +5,7 @@ require('database.php');
 
 $persons = retrieve_persons_with_papers($con);
 ?>
-<form action='visualise_papers_end.php' method='post'>
+<form action='visualise_papers_select_networks.php' method='post'>
     <select name="pId">
         <?php
         foreach($persons as $person) {
