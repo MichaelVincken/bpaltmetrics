@@ -3,6 +3,9 @@ $page_title = "visualise papers";
 require('menu.php');
 require('database.php');
 $pId = ($_POST["pId"]);
+//Help mouseover:
+$mouseOverString = "Choose the networks you want to compare. It is important to note that more than three networks is not ideal for the graphical representation (venn diagram).";
+include('tooltip.php');
 
 $networks = retrieve_networks_person($pId,$con);
 ?>

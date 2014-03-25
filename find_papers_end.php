@@ -2,6 +2,10 @@
 $page_title = "find papers: database.";
 require_once('menu.php');
 require_once('database.php');
+//Help mouseover:
+$mouseOverString = "Inserting papers into the database. If this is done, you can go to any page you want.";
+include('tooltip.php');
+
 $papers = unserialize(urldecode(($_POST["papers"])));
 $personId = ($_POST["pId"]);
 //For every paper we found. $paper is an array of entrys for 1 paper.

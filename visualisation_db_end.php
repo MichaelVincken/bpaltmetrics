@@ -2,6 +2,10 @@
 $page_title = "visualisation whole network";
 include('menu.php');
 include('database.php');
+//Help mouseover:
+$mouseOverString = "This page is a parallell coordinate representation of all people and networks in the database. You can change the order of the different axes. By dragging over a specific axis you can focus your attention on those you selected.";
+include('tooltip.php');
+
 
 $metrics = unserialize(urldecode($_POST["metrics"]));
 $metric = ($_POST["metric"]);

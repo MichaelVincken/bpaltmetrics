@@ -4,6 +4,10 @@ $page_title = "find papers";
 require('menu.php');
 require('database.php');
 require('scrape.php');
+//Help mouseover:
+$mouseOverString = "Getting the papers from the networks. This can take a while.";
+include('tooltip.php');
+
 ?>
 
 <?php

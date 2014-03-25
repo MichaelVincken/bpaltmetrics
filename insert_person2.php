@@ -5,6 +5,10 @@ include_once('menu.php');
 include_once('scrape.php');
 include_once('database.php');
 
+//Help mouseover:
+$mouseOverString = "Please choose one of the appropriate options. Do not forget the check the entries that are right for the person you seek. You can visit the found webpages by clicking on a name. You can also skip this database.";
+include('tooltip.php');
+
 /**
  * Retrieve data from POST
  */

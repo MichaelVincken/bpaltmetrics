@@ -12,11 +12,7 @@
                 <?php
                 echo $name;
                 echo "</td>";
-                    if(count($array)>0) {
-                        echo "<td>";
-                    } else {
-                        echo "<td class='tooltip'>";
-                    }
+                echo "<td class='tooltip'>";
                 echo count($array);
                 echo "</td></tr>";
             }
@@ -29,13 +25,16 @@
 
 <script type="text/javascript" src="d3.min.js"></script>
 <script type="text/javascript" src="venn.js"></script>
+<script src="http://www.benfrederickson.com/images/mds.js"></script>
+<script src="http://www.numericjs.com/lib/numeric-1.2.6.min.js"></script>
+
 <script>
 // define sets and set set intersections
 var sets = <?php echo $sets?>,
     overlaps = <?php echo $overlaps?>;
 
 // get positions for each set
-sets = venn.venn(sets, overlaps);
+sets = venn.venn(sets, overlaps, {layoutFunction: venn.classicMDSLayout});
 
 // draw the diagram in the 'simple_example' div
 venn.drawD3Diagram(d3.select(".venn"), sets, 600, 600);

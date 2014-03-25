@@ -358,22 +358,6 @@ class acm_scrape {
     }
 }
 
-class scopus_scrape {
-    public static function get_person($url) {
-        include_once("simple_html_dom.php");
-        $html = file_get_html($url);
-        var_dump($html->plaintext);
-        $ret = $html->find('body');
-        $result_array = array();
-        $result_array["name"] = $ret[0]->plaintext;
-         var_dump($ret);   
-            
-        return $result_array;
-    }
-        
-    
-    
-}
 
 // Google Scholar
 //var_dump(Google_scrape::get_person("http://scholar.google.com/citations?user=PZURMD0AAAAJ"));
@@ -397,7 +381,5 @@ class scopus_scrape {
 //var_dump(acm_scrape::search_person("ERik","duval"));
 //var_dump(acm_scrape::search_papers("http://dl.acm.org/author_page.cfm?id=81100172909"));
 
-//SCOPUS
-var_dump(scopus_scrape::get_person("http://www.scopus.com/authid/detail.url?authorId=7006487422"));
 ?>
 

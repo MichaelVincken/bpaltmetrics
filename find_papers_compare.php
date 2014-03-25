@@ -3,6 +3,10 @@ $page_title = "find papers";
 require('menu.php');
 require('database.php');
 require('scrape.php');
+//Help mouseover:
+$mouseOverString = "Comparing all papers with the papers in the database to estabilish which of them are the same.";
+include('tooltip.php');
+
 ?>
 
 <?php

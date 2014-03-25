@@ -2,6 +2,9 @@
 $page_title = "Checkbox";
 require_once('menu.php');
 require_once('database.php');
+//Help mouseover:
+$mouseOverString = "Busy entering data into database. You don't have to do anything.";
+include('tooltip.php');
 
 $checkboxes = isset($_POST['persons']) ? $_POST['persons'] : array();
 $numberOfPersons = count($checkboxes);
@@ -25,8 +28,8 @@ for($i=0;$i<$numberOfPersons;$i++) {
 $person_array = select_person($firstname,$lastname,$con);
 $pId = $person_array[0]["pId"];
            
-
 // Specifics for the current network for this person
+
 $network_string =  ($_POST["networks"][0]);
 $network_array = unserialize(urldecode($network_string));
 $network_name = array_shift($network_array);

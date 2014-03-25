@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 $page_title = "visualise papers";
 require('menu.php');
 require('database.php');
@@ -103,12 +100,8 @@ foreach($set_records as $title=>$data) {
         <caption class = "<?php echo $table ?>">
             <div id="<?php echo $table."_arrow" ?>" class="nav-arrow">▼</div>
             <?php
-            if(count($data)>0) {
-                echo $title;
-            } else {
                 echo "<div class='tooltip'>".$title."</div>";
-            }
-            ?>
+                ?>
         </caption>
         <thead>
         </thead>

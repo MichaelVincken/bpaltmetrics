@@ -2,6 +2,10 @@
 $page_title = "visualisation whole network: select parameter";
 include('menu.php');
 include('database.php');
+//Help mouseover:
+$mouseOverString = "Select the parameter you want to compare. You can choose to include people who do not have data for every possible network.";
+include('tooltip.php');
+
 
 ?>
 <h3>Select the Metric you want to use to visualize the database.</h3>

@@ -47,6 +47,10 @@
         <?php
             include('login.php');
             include('menu.php');    
+            //Help mouseover:
+            $mouseOverString = "This page displays manually added people.";
+            include('tooltip.php');
+            
         ?>
         <h2> Proof of concept: parrallel coordinates van manueel verzamelde citatiegegevens.</h2>
         <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.5.0"></script>

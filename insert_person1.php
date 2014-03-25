@@ -3,6 +3,10 @@
 $page_title = "Insert Person";
 include('menu.php');
 include('database.php');
+//Help mouseover:
+$mouseOverString = "Give the name and family name of the person you seek.";
+include('tooltip.php');
+
 $networks = urlencode(serialize(retrieve_networks($con)));
 ?>
 <form action="insert_person2.php" method="post">
