@@ -1,8 +1,8 @@
 
 <?php
 $page_title = "Insert Person";
-include('menu.php');
-include('database.php');
+include('/home/thesis-std/menu.php');
+include('/home/thesis-std/database.php');
 //Help mouseover:
 $mouseOverString = "Give the name and family name of the person you seek.";
 include('tooltip.php');
@@ -18,5 +18,5 @@ $networks = urlencode(serialize(retrieve_networks($con)));
     <input type="submit" value="submit"/>
 </form>
 <?php
-include('footer.php');
+include('/home/thesis-std/footer.php');
 ?>

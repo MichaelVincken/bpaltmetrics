@@ -45,8 +45,8 @@
     </head>
     <body>
         <?php
-            include('login.php');
-            include('menu.php');    
+        include('/home/thesis-std/login.php');
+        include('/home/thesis-std/menu.php');    
             //Help mouseover:
             $mouseOverString = "This page displays manually added people.";
             include('tooltip.php');

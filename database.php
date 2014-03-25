@@ -8,7 +8,7 @@ require_once('password.php');
 //mysqli_select_db($con,$dbname);
 try {
     if(isset($con)) mysqli_close($con);
-    $con = mysqli_connect($host,$username,$password,$dbname,$port) or die('connection to database failed.');
+    $con = mysqli_connect($host,$username,$password,$dbname) or die('connection to database failed.');
 } catch (Exception $e) {
     echo  "<script>";
     echo "window.alert('Database connection failed.');";
@@ -110,7 +110,8 @@ function retrieve_networks_person($personId,$con) {
     THEN 1
     ELSE 0 END";
     $result = mysqli_query($con,$query) or die("Cannot execute query. ".mysqli_error($con));
-    $in_network = mysqli_fetch_array($result)[0];
+    $in_network = mysqli_fetch_array($result);
+    $in_network = $in_network[0];
     if($in_network) array_push($result_array,$network);                
 }
 return $result_array;

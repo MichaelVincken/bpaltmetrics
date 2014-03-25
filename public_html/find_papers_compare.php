@@ -1,8 +1,8 @@
 <?php   
 $page_title = "find papers";
-require('menu.php');
-require('database.php');
-require('scrape.php');
+include('/home/thesis-std/menu.php');
+require('/home/thesis-std/database.php');
+require('/home/thesis-std/scrape.php');
 //Help mouseover:
 $mouseOverString = "Comparing all papers with the papers in the database to estabilish which of them are the same.";
 include('tooltip.php');
@@ -10,7 +10,11 @@ include('tooltip.php');
 ?>
 
 <?php
-
+//ERROR if this page is loaded without first going trough the previous pages: redirect.
+if(!isset($_POST["pId"])) {
+    echo '<meta http-equiv="refresh" content="0;URL=find_papers.php" />';
+    exit;
+}
 $papers = unserialize(urldecode(($_POST["papers"])));
 $pId = ($_POST["pId"]);
 $networks = array_keys($papers);
@@ -62,7 +66,7 @@ Please be patient, all papers need to be inserted in the databse.
 document.auto_form.submit();
 </script> 
 
-<?php require_once('footer.php');    ?>
+<?php require_once('/home/thesis-std/footer.php');    ?>
 
 
 

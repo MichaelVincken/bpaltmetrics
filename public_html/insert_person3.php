@@ -1,10 +1,17 @@
 <?php
 $page_title = "Checkbox";
-require_once('menu.php');
-require_once('database.php');
+require_once('/home/thesis-std/menu.php');
+require_once('/home/thesis-std/database.php');
+
 //Help mouseover:
 $mouseOverString = "Busy entering data into database. You don't have to do anything.";
 include('tooltip.php');
+
+//ERROR if this page is loaded without first going trough the previous pages: redirect.
+if(!isset($_POST["pId"])) {
+    echo '<meta http-equiv="refresh" content="0;URL=insert_person1.php" />';
+    exit;
+}
 
 $checkboxes = isset($_POST['persons']) ? $_POST['persons'] : array();
 $numberOfPersons = count($checkboxes);
@@ -91,7 +98,8 @@ Please wait while searching next network.
 <script language = "JavaScript">
 document.auto_form.submit();
 </script> 
+
 <?php
 
-include('footer.php')
-    ?>
+include('/home/thesis-std/footer.php')
+?>

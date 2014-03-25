@@ -1,9 +1,9 @@
 
 <?php   
 $page_title = "find papers";
-require('menu.php');
-require('database.php');
-require('scrape.php');
+include('/home/thesis-std/menu.php');
+require('/home/thesis-std/database.php');
+require('/home/thesis-std/scrape.php');
 //Help mouseover:
 $mouseOverString = "Getting the papers from the networks. This can take a while.";
 include('tooltip.php');
@@ -11,6 +11,12 @@ include('tooltip.php');
 ?>
 
 <?php
+//ERROR if this page is loaded without first going trough the previous pages: redirect.
+if(!isset($_POST["pId"])) {
+    echo '<meta http-equiv="refresh" content="0;URL=find_papers.php" />';
+    exit;
+}
+
 $pId = ($_POST["pId"]);
 $networks = retrieve_networks($con);
 $papers = array();

@@ -1,7 +1,7 @@
 <?php
 $page_title = "find papers";
-require('menu.php');
-require('database.php');
+include('/home/thesis-std/menu.php');
+require('/home/thesis-std/database.php');
 //Help mouseover:
 $mouseOverString = "Select for which person you want to find papers. Be advised: This can take quite a long time.";
 include('tooltip.php');
@@ -20,5 +20,5 @@ $persons = retrieve_persons($con);
     
 
 <?php
-require('footer.php');
+include('/home/thesis-std/footer.php');
 ?>

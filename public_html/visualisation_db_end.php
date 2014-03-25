@@ -1,10 +1,16 @@
 <?
 $page_title = "visualisation whole network";
-include('menu.php');
-include('database.php');
+include('/home/thesis-std/menu.php');
+include('/home/thesis-std/database.php');
 //Help mouseover:
 $mouseOverString = "This page is a parallell coordinate representation of all people and networks in the database. You can change the order of the different axes. By dragging over a specific axis you can focus your attention on those you selected.";
 include('tooltip.php');
+
+//ERROR if this page is loaded without first going trough the previous pages: redirect.
+if(!isset($_POST["pId"])) {
+    echo '<meta http-equiv="refresh" content="0;URL=visualisation_db_select_parameters.php" />';
+    exit;
+}
 
 
 $metrics = unserialize(urldecode($_POST["metrics"]));
@@ -31,5 +37,5 @@ $include_string = ($include_missing)? "1" : "0";
 $data_location = "visualise_db_data.php?include_missing=".$include_string."&metric=".$metric;
 include('parallel.php');
 
-require('footer.php');    
+require('/home/thesis-std/footer.php');    
 ?>

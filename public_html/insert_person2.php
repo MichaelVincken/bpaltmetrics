@@ -1,13 +1,20 @@
 <?php
 $page_title = 'Insert Person';
         
-include_once('menu.php');
-include_once('scrape.php');
-include_once('database.php');
+include_once('/home/thesis-std/menu.php');
+require_once('/home/thesis-std/scrape.php');
+require_once('/home/thesis-std/database.php');
 
 //Help mouseover:
 $mouseOverString = "Please choose one of the appropriate options. Do not forget the check the entries that are right for the person you seek. You can visit the found webpages by clicking on a name. You can also skip this database.";
 include('tooltip.php');
+
+
+//ERROR if this page is loaded without first going trough the previous pages: redirect.
+if(!isset($_POST["pId"])) {
+    echo '<meta http-equiv="refresh" content="0;URL=insert_person1.php" />';
+    exit;
+}
 
 /**
  * Retrieve data from POST
@@ -155,5 +162,5 @@ if ($urls == null) {
     </form>
 
     <?php
-    include('footer.php');
+    include('/home/thesis-std/footer.php');
     ?>

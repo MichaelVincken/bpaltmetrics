@@ -1,10 +1,16 @@
 <?php
 $page_title = "find papers: database.";
-require_once('menu.php');
-require_once('database.php');
+require_once('/home/thesis-std/menu.php');
+require_once('/home/thesis-std/database.php');
 //Help mouseover:
 $mouseOverString = "Inserting papers into the database. If this is done, you can go to any page you want.";
 include('tooltip.php');
+
+//ERROR if this page is loaded without first going trough the previous pages: redirect.
+if(!isset($_POST["pId"])) {
+    echo '<meta http-equiv="refresh" content="0;URL=find_papers.php" />';
+    exit;
+}
 
 $papers = unserialize(urldecode(($_POST["papers"])));
 $personId = ($_POST["pId"]);
@@ -60,5 +66,5 @@ foreach($papers as $paper) {
 echo "all papers where inserted in the database.";    
     
     
-require_once('footer.php');    
+require_once('/home/thesis-std/footer.php');    
 ?>

@@ -1,5 +1,12 @@
 <?php
-require_once('database.php');    
+require_once('/home/thesis-std/database.php'); 
+ 
+//ERROR if this page is loaded without first going trough the previous pages: redirect.
+if(!isset($_POST["metric"])) {
+    echo '<meta http-equiv="refresh" content="0;URL=visualisation_db_select_parameters.php" />';
+    exit;
+}
+  
 if(isset($_GET['metric'])) {
     $metric = $_GET['metric'];
 } else {

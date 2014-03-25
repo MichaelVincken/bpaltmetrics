@@ -1,8 +1,7 @@
 <?php
 //Database specifics
-$host = 'p:84.246.4.143';
-$username = 'StappaertsDB';
-$password = 'Databases1';
-$dbname = 'stappaertsdb';
-$port = 9132;
+$host = 'p:mysql.hci.cs.kuleuven.be';
+$username = 'bpaltmetrics';
+$password = 'As4JRaGvMaRDz5Ms';
+$dbname = 'bpaltmetrics';
 ?>

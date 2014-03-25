@@ -1,10 +1,16 @@
 <?php
 $page_title = "Insert Person";
-include('menu.php');
-include('scrape.php');
+include('/home/thesis-std/menu.php');
+include('/home/thesis-std/scrape.php');
 //Help mouseover:
 $mouseOverString = "Inserting the right person with the given url into the database. You don't have to do anything.";
 include('tooltip.php');
+
+//ERROR if this page is loaded without first going trough the previous pages: redirect.
+if(!isset($_POST["pId"])) {
+    echo '<meta http-equiv="refresh" content="0;URL=insert_person1.php" />';
+    exit;
+}
 
 $firstname =  ($_POST["firstname"]);
 $lastname =  ($_POST["lastname"]);
@@ -35,4 +41,4 @@ document.frm.submit();
 </script>
 <tbody>
 
-<?php include("footer.php")?>
+<?php include("/home/thesis-std/footer.php")?>
