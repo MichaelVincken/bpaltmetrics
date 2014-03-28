@@ -7,7 +7,7 @@ $mouseOverString = "Inserting the right person with the given url into the datab
 include('tooltip.php');
 
 //ERROR if this page is loaded without first going trough the previous pages: redirect.
-if(!isset($_POST["pId"])) {
+if(!isset($_POST["url"])) {
     echo '<meta http-equiv="refresh" content="0;URL=insert_person1.php" />';
     exit;
 }

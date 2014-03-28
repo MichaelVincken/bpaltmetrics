@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 'On');
 
 $page_title = "visualise papers";
 require('/home/thesis-std/menu.php');
@@ -34,6 +35,7 @@ for ($i = 0; $i < pow(2, count($networks)); $i++) {
     }  
    array_push($set_array,$array);  
 }
+
 //Calculate the include networks and the not-include networks.
 $set_array = array_slice($set_array,1);
 $new_set_array = array();
@@ -50,16 +52,21 @@ foreach($new_set_array as $set) {
     $set_string = implode(' ∩ ',$set[0]);
     $set_records[$set_string] = getPapersFromNetworks($set[0],$set[1],$pId,$con);
 }
+
 //Venn diagram?
 $venn_nr_sets = count($networks);
 $sets = array();
 
 for($i = 0;$i<$venn_nr_sets;$i++) {
-    $set_name = array_keys($set_records)[$i];
+    $set_name = array_keys($set_records);
+    $set_name = $set_name[$i];
     //Calculate how many papers in total in the network.
-    $numberOfPapers = count(getPapersFromNetworks([$set_name],array(),$pId,$con));
+    $included = array();
+    array_push($included,$set_name);
+    $numberOfPapers = count(getPapersFromNetworks($included,array(),$pId,$con));
     array_push($sets,'{label: "'.$set_name.'" ,size: '.$numberOfPapers.'}');
 }
+
 $sets = implode(', ',$sets);
 $sets = '['.$sets.']';
 
@@ -79,13 +86,16 @@ for ($i = 0; $i < pow(2, count($elements)); $i++) {
     }  
    array_push($array_numbers,$array);  
 }
+
 sort($array_numbers);
 //Keep only those relevant for the overlapping.
 $array_numbers = array_slice($array_numbers,1);
 $overlaps = array();
 for($i = $venn_nr_sets; $i < count($array_numbers); $i++) {
     $set_name = implode(",",$array_numbers[$i]);
-    array_push($overlaps,'{sets: ['.$set_name.'],size: '.count($set_records[array_keys($set_records)[$i]]).'}');
+    $amount = array_keys($set_records);
+    $amount = $amount[$i];
+    array_push($overlaps,'{sets: ['.$set_name.'],size: '.count($set_records[$amount]).'}');
 }
 $overlaps = '['.implode(', ',$overlaps).']';
 

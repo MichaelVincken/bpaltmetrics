@@ -1,12 +1,14 @@
 <?php
-require_once('/home/thesis-std/database.php'); 
- 
+ini_set('display_errors', 1);
+
+require_once('/home/thesis-std/database.php');
+
 //ERROR if this page is loaded without first going trough the previous pages: redirect.
-if(!isset($_POST["metric"])) {
+if(!isset($_GET["metric"])) {
     echo '<meta http-equiv="refresh" content="0;URL=visualisation_db_select_parameters.php" />';
     exit;
 }
-  
+
 if(isset($_GET['metric'])) {
     $metric = $_GET['metric'];
 } else {
@@ -17,8 +19,11 @@ if(isset($_GET['include_missing'])) {
 } else {
     $include_missing = FALSE;
 }
+
 $array = parallel($con,$metric,$include_missing);
-$key = array_keys($array[0])[1];
+
+$key = array_keys($array[0]);
+$key = $key[1];
 $array2 = array_msort($array, array($key => SORT_ASC));
 echo json_encode(array_Values($array2));
 function array_msort($array, $cols)
@@ -31,7 +36,7 @@ function array_msort($array, $cols)
     $eval = 'array_multisort(';
     foreach ($cols as $col => $order) {
         $eval .= '$colarr[\''.$col.'\'],'.$order.',';
-    }
+   }
     $eval = substr($eval,0,-1).');';
     eval($eval);
     $ret = array();

@@ -1,4 +1,4 @@
-<?
+<?php
 $page_title = "visualisation whole network";
 include('/home/thesis-std/menu.php');
 include('/home/thesis-std/database.php');
@@ -7,7 +7,7 @@ $mouseOverString = "This page is a parallell coordinate representation of all pe
 include('tooltip.php');
 
 //ERROR if this page is loaded without first going trough the previous pages: redirect.
-if(!isset($_POST["pId"])) {
+if(!isset($_POST["metrics"])) {
     echo '<meta http-equiv="refresh" content="0;URL=visualisation_db_select_parameters.php" />';
     exit;
 }
@@ -35,6 +35,7 @@ $include_missing=isset($_POST['include_missing']);
 <?php
 $include_string = ($include_missing)? "1" : "0";
 $data_location = "visualise_db_data.php?include_missing=".$include_string."&metric=".$metric;
+
 include('parallel.php');
 
 require('/home/thesis-std/footer.php');    

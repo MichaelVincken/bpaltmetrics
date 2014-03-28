@@ -2,7 +2,7 @@
 // scraping basis
 // include the library
 // include('simple_html_dom.php');
-
+ini_set('default_charset', 'utf-8');
 class microsoft_scrape {
     
     public static function get_person($url) {
@@ -126,7 +126,7 @@ class google_scrape {
         
         // Terugvinden study_field
         $ret = $html->find("span[id=cit-int-read]");
-        $array["study_field"] = html_entity_decode($ret[0]->plaintext);
+        $array["study_field"] = html_entity_decode($ret[0]->plaintext,ENT_COMPAT,"UTF-8");
         return $array;
     }
     
@@ -200,7 +200,7 @@ class citeseer_scrape {
         $ret = $html->find('h2');
         $string_array = explode(" ",$ret[0]->plaintext);
         $string = implode(" ",array_slice($string_array,0,-1));
-        $array["name"] = $string;
+        $array["name"] = html_entity_decode($string);
         
         // Retrieve all relevant td
         $ret = $html->find('#authInfo tbody tr td');
@@ -338,7 +338,7 @@ class acm_scrape {
         $j = 0;
         while($i < count($ret)) {
             $r = $ret[$i];
-            $string =  html_entity_decode($r->plaintext,ENT_HTML5,"ISO-8859-1");
+            $string =  html_entity_decode($r->plaintext,ENT_QUOTES,"ISO-8859-1");
             $array = $intermediate_result_array[$j];
             preg_match("/Downloads \(12 Months\): (.*),/", $string, $matches);
             if(isset($matches[1])) {
@@ -359,27 +359,6 @@ class acm_scrape {
 }
 
 
-// Google Scholar
-//var_dump(Google_scrape::get_person("http://scholar.google.com/citations?user=PZURMD0AAAAJ"));
-//var_dump(Google_scrape::search_person("Erik","Duval"));
-//var_dump(Google_scrape::search_papers("http://scholar.google.com/citations?user=PZURMD0AAAAJ"));
-// CiteSeerX
-//var_dump(Citeseer_scrape::get_person("http://citeseerx.ist.psu.edu/viewauth/summary?aid=62171&list=full&list=full"));
-//var_dump(Citeseer_scrape::search_person("Erik","Duval"));
-//var_dump(Citeseer_scrape::search_papers("/"));
-
-
-//What to do with: f.e. Matthijs van Leeuwen
-//http://scholar.google.com/citations?hl=en&view_op=search_authors&mauthors=matthijs+van+leeuwen
-//var_dump(google_scrape::search_person("matthijs","van leeuwen"));
-
-//Microsoft
-//var_dump(microsoft_scrape::search_papers("http://academic.research.microsoft.com/Author/1499065/philip-dutr"));
-
-//ACM
-//var_dump(acm_scrape::get_person(""));
-//var_dump(acm_scrape::search_person("ERik","duval"));
-//var_dump(acm_scrape::search_papers("http://dl.acm.org/author_page.cfm?id=81100172909"));
 
 ?>
 

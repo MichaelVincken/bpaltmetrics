@@ -207,7 +207,7 @@ return $resultarray;
 /** Retrieve all persons who have authored at least one paper.
 */
 function retrieve_persons_with_papers($con) {
-$query = "SELECT pId, name, lastName FROM person WHERE EXISTS (SELECT personId FROM Authored WHERE person.pId = personId)";
+$query = "SELECT pId, name, lastName FROM person WHERE EXISTS (SELECT personId FROM authored WHERE person.pId = personId)";
     $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
 $resultarray = array();
 while($row = mysqli_fetch_array($result)) {
@@ -222,7 +222,9 @@ return $resultarray;
 * Retrieve all papers.
 */
 function retrieve_papers($con) {
-$con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Verbinding naar externe mysqldb gefaald!');
+require('password.php');
+if(isset($con)) mysqli_close($con);
+$con = mysqli_connect($host,$username,$password,$dbname) or die('connection to database failed.');
 $query = "SELECT pId, title FROM paper";
 $result = mysqli_query($con,$query) or die('Cannot get information. '.mysqli_error($con));
 $resultarray = array();
@@ -238,7 +240,9 @@ return $resultarray;
 * Retrieve all urls of this person for this network.
 */
 function retrieve_urls($pId,$network,$con) {
-$con = mysqli_connect('p:84.246.4.143','StappaertsDB','Databases1','stappaertsdb',9132) or die('Connection failed.');
+    require('password.php');
+    if(isset($con)) mysqli_close($con);
+    $con = mysqli_connect($host,$username,$password,$dbname) or die('connection to database failed.');
     
 $table = $network."_url";
 $query = "SELECT url FROM {$table} WHERE pId = '{$pId}'";
@@ -330,10 +334,10 @@ function getPapersFromNetworks($included,$excluded,$pId,$con) {
         array_push($strings,"NOT EXISTS (SELECT pId FROM ".$table_name." WHERE paper.pId = pId)");
     }
     $str_and = implode(" AND ", $strings);
-    $str_person = " AND EXISTS (SELECT paperId FROM Authored WHERE paperId = paper.pId AND personId = '{$pId}')";
+    $str_person = " AND EXISTS (SELECT paperId FROM authored WHERE paperId = paper.pId AND personId = '{$pId}')";
     $query = $query.$str_and.$str_person;
     
-    $result = mysqli_query($con,$query) or trigger_error('Cannot retrieve papers. '.mysqli_error($con));
+    $result = mysqli_query($con,$query) or die('Cannot retrieve papers. '.mysqli_error($con));
     $resultarray = array();
     while($row = mysqli_fetch_array($result)) {
         array_push($resultarray,$row);

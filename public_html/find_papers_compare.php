@@ -16,6 +16,7 @@ if(!isset($_POST["pId"])) {
     exit;
 }
 $papers = unserialize(urldecode(($_POST["papers"])));
+//var_dump(count($papers["microsoft"]));
 $pId = ($_POST["pId"]);
 $networks = array_keys($papers);
 $similar_papers = array();
@@ -38,7 +39,7 @@ for($i=0;$i<count($networks);$i++) {
                     if(isset($papers_other[$o]) && $papers_other[$o] !== $paper) {
                         $other = $papers_other[$o];
                         //compare
-                        //text is very similar OR text is substring of other text.
+                        //text is very similar.
                         similar_text($paper["title"],$other["title"],$percentage);
                         if(($percentage > 85)) {
                             array_push($similar_array,$other);
@@ -54,18 +55,20 @@ for($i=0;$i<count($networks);$i++) {
     
 }
 
-
+//var_dump(count($similar_papers));
 ?>
+
 Please be patient, all papers need to be inserted in the databse.
 <form name="auto_form" action="find_papers_end.php" method="post">
     <input type="hidden" value="<?php echo urlencode(serialize($similar_papers))?>" name="papers" />
     <input type="hidden" value="<?php echo $pId?>" name ="pId" />
+    <input type="submit" value="submit"/>
             
 </form>
-<script language = "JavaScript">
+<!--<script language = "JavaScript">
 document.auto_form.submit();
 </script> 
-
+-->
 <?php require_once('/home/thesis-std/footer.php');    ?>
 
 
