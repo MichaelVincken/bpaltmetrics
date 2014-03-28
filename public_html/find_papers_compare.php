@@ -59,16 +59,18 @@ for($i=0;$i<count($networks);$i++) {
 ?>
 
 Please be patient, all papers need to be inserted in the databse.
+<?php include("spinnner.php"); flush();?>
+
 <form name="auto_form" action="find_papers_end.php" method="post">
     <input type="hidden" value="<?php echo urlencode(serialize($similar_papers))?>" name="papers" />
     <input type="hidden" value="<?php echo $pId?>" name ="pId" />
-    <input type="submit" value="submit"/>
+        <!-- ><input type="submit" value="submit"/> -->
             
 </form>
-<!--<script language = "JavaScript">
+<script language = "JavaScript">
 document.auto_form.submit();
 </script> 
--->
+
 <?php require_once('/home/thesis-std/footer.php');    ?>
 
 

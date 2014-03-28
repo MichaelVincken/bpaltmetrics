@@ -204,6 +204,12 @@ while($row = mysqli_fetch_array($result)) {
 return $resultarray;
 }
 
+function delete_person($pId,$con) {
+    $query = "DELETE FROM person WHERE pId = '{$pId}'";
+    mysqli_query($con,$query) or die('Cannot remove person :( . '.mysqli_error($con));
+    
+}
+
 /** Retrieve all persons who have authored at least one paper.
 */
 function retrieve_persons_with_papers($con) {

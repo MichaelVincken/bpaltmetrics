@@ -1,9 +1,9 @@
 <div align="center" class="venn">
     <table align = "left" vertical-align="middle" >
-        <theader>
+        <thead>
             <th>network</th>
             <th>amount</th>
-        </theader> 
+        </thead> 
         <tbody>
             <?php
             foreach($set_records as $name =>$array) {
@@ -20,6 +20,9 @@
             ?>
         </tbody>
      </table>
+     <div id="checkbox" float="right">
+         <label><input type="checkbox"> Alternative Visualisation.</label>
+     </div>
 </div>
 
 
@@ -29,14 +32,34 @@
 <script src="http://www.numericjs.com/lib/numeric-1.2.6.min.js"></script>
 
 <script>
-// define sets and set set intersections
-var sets = <?php echo $sets?>,
-    overlaps = <?php echo $overlaps?>;
+//Define functions for sets and setintersections.
+function getSetIntersections() {
+    return <?php echo $overlaps?>;;
+}
 
-// get positions for each set
-sets = venn.venn(sets, overlaps, {layoutFunction: venn.classicMDSLayout});
+function getSets() {
+    return <?php echo $sets?>;
+}
+
+
+// get positions for each set. Initial layoutfunction.
+var sets = venn.venn(getSets(), getSetIntersections(), {layoutFunction: venn.classicMDSLayout});
 
 // draw the diagram in the 'simple_example' div
 venn.drawD3Diagram(d3.select(".venn"), sets, 600, 600);
+//Execute change function if the checkbox changes.
+d3.select("input").on("change", change);
+
+function change() {
+    if(this.checked) {
+        var sets = venn.venn(getSets(), getSetIntersections());
+        venn.updateD3Diagram(d3.select(".venn"),sets);
+    } else {
+        var sets = venn.venn(getSets(), getSetIntersections(),{layoutFunction: venn.classicMDSLayout});
+        venn.updateD3Diagram(d3.select(".venn"),sets);
+    }
+};
+
+
 </script>
 </html>

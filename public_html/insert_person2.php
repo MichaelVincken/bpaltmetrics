@@ -108,10 +108,10 @@ if ($urls == null) {
                 $name = $result["name"];
                 $given_name = $firstname. " ".$lastname;
                 similar_text($given_name,$name,$procent);
-                if($procent > 50) {
+                if($procent > 70) {
                     echo "<tr>";
                     echo "<td>";
-                    echo "<a href=".$url.">".$name."</a>";
+                    echo "<a href='".$url."' target='_blank'>".$name."</a>";
                     echo "</td>";
                     for ($i = 3; $i < count($column_array); $i++) {
                         echo "<td>".$result[$column_array[$i]]."</td>";                        
