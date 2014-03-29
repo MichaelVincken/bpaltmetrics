@@ -3,6 +3,7 @@
 // include the library
 // include('simple_html_dom.php');
 ini_set('default_charset', 'utf-8');
+ini_set('memory_limit', '-1');
 class microsoft_scrape {
     
     public static function get_person($url) {
@@ -68,20 +69,21 @@ class microsoft_scrape {
         $html = file_get_html($url);
         //find navigation for next pages.
         $ret = $html->find('.page-navigator a');
-        $array = array();
-        //array[0] = html of first page
-        $array[0] = $html;
-        //find html for every other page.
+        $urls = array();
+        //Too much memory usage if you get hmtl of each page and store it. --> Use it and throw it away.
+        
+        //find url for every next page(s).
         for($i = 1; $i < count($ret); $i ++) {
             $ur = html_entity_decode("http://academic.research.microsoft.com".$ret[$i-1]->href);
-            $html = file_get_html($ur);
-            $array[$i] = $html;
+            array_push($urls,$ur);
         }
         //article_array: array with all articles.
         $article_array = array();
-        //for each page: get all articles.
-        foreach($array as $html) {
+        //For the first page: get all articles.
+        {
             $ret = $html->find('h3 a');
+            //Freeing memory :)
+            unset($html);
             $i = 0;
             while($i < count($ret)) {
                 $element = array();
@@ -99,7 +101,32 @@ class microsoft_scrape {
                     
                 array_push($article_array,$element);
             }
+            
         }
+        foreach($urls as $url) {
+            $html = file_get_html($url);
+            $ret = $html->find('h3 a');
+            unset($html); //freeing memory :)
+            $i = 0;
+            while($i < count($ret)) {
+                $element = array();
+                $element["url"] = html_entity_decode("http://academic.research.microsoft.com/".$ret[$i]->href);
+                $element["title"] = html_entity_decode($ret[$i] ->plaintext);
+                //special case when citations are included.
+                    if(isset($ret[$i+1]) && preg_match("/Citations:\s(.*)/",$ret[$i+1]->plaintext,$matches)==1) {
+                        $element["citations"] = intval($matches[1]);
+                        $i = $i+2;
+                    } else {
+                        $element["citations"] = 0;
+                        $i++;
+                    } 
+                $element["network"] = "microsoft";
+                    
+                array_push($article_array,$element);
+            }
+            
+        }
+        
         
         return $article_array;       
     }

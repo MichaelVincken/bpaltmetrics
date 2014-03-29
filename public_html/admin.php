@@ -23,6 +23,7 @@ foreach($persons as $person) {
             <input type="hidden" value="<?php echo $person['pId']?>" name ="pId" />
             <input type="submit" value="Delete"/>
         </form>
+    </td>
 <?php
 }
 ?>

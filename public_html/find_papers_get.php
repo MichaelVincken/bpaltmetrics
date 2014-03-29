@@ -25,20 +25,17 @@ if(!isset($_POST["networks"])) {
     //first: finding all papers that are currently in the network. :(
     $paper["current"] = retrieve_papers($con);
     echo "Beginning search of network. Number of networks: ".count($networks);
-    include("spinnner.php");
     flush();
     ?>
-    <form name="first_form" action="find_papers_get.php" method="post">
+    <form name="next_form" action="find_papers_get.php" method="post">
         <input type="hidden" value="<?php echo urlencode(serialize($papers))?>" name="papers" />
         <input type="hidden" value="<?php echo $pId?>" name ="pId" />
         <input type="hidden" value="<?php echo urlencode(serialize($networks))?>" name="networks" />
         <!-- ><input type="submit" value="submit"/> -->
             
     </form>
-     <script language = "JavaScript">
-     document.first_form.submit();
-     </script> 
     <?php
+
 } else {
     //Check if the number of networks == 0 --> we need to continue to the next page (find_papers_compare);
     $networks = unserialize(urldecode($_POST["networks"]));
@@ -49,23 +46,18 @@ if(!isset($_POST["networks"])) {
         ?>
         Getting the papers from the different networks is done.
         Please be patient, all papers will be compared to find matching ones accros networks.
-        <?php include("spinnner.php"); flush();?>
         
-        <form name="auto_form" action="find_papers_compare.php" method="post">
+        <form name="next_form" action="find_papers_compare.php" method="post">
             <input type="hidden" value="<?php echo urlencode(serialize($papers))?>" name="papers" />
             <input type="hidden" value="<?php echo $pId?>" name ="pId" />
         <!-- ><input type="submit" value="submit"/> -->
             
         </form>
-        <script language = "JavaScript">
-         document.auto_form.submit();
-         </script> 
         <?php
     } else {
         //We are not done and get the papers for the next network.
         $network = array_shift($networks);
         echo count($networks)." networks to go. Just got the papers from the ".$network." network";
-        include("spinnner.php");
         flush();
         try{
             $urls = retrieve_urls($pId,$network,$con);
@@ -80,19 +72,20 @@ if(!isset($_POST["networks"])) {
                 echo "</script>";
         }
         ?>
-        <form name="next_network_form" action="find_papers_get.php" method="post">
+        <form name="next_form" action="find_papers_get.php" method="post">
             <input type="hidden" value="<?php echo urlencode(serialize($papers))?>" name="papers" />
             <input type="hidden" value="<?php echo $pId?>" name ="pId" />
             <input type="hidden" value="<?php echo urlencode(serialize($networks))?>" name="networks" />
         <!-- ><input type="submit" value="submit"/> -->
         </form>
-       <script language = "JavaScript">
-        document.next_network_form.submit();
-        </script> 
         <?php
            
     }
 }
-include('/home/thesis-std/footer.php');
+flush();
 ?>
+<script language = "JavaScript">
+document.next_form.submit();
+</script> 
+
     

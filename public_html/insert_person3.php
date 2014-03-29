@@ -32,8 +32,7 @@ for($i=0;$i<$numberOfPersons;$i++) {
 }
 
 //Retrieve pId:
-$person_array = select_person($firstname,$lastname,$con);
-$pId = $person_array[0]["pId"];
+$pId = select_person($firstname,$lastname,$con);
            
 // Specifics for the current network for this person
 
@@ -44,6 +43,7 @@ $network_name = array_shift($network_array);
 
 // Inserting all i-urls from i-selected persons
 for($i=0;$i<$numberOfPersons;$i++) {
+    echo "inserting url.";
     insert_url($pId,$network_name,$url[$i],$con);
 }
 
