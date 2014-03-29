@@ -17,6 +17,7 @@ $networks = urlencode(serialize(retrieve_networks($con)));
         
     <input type="submit" value="submit"/>
 </form>
+<small>Note: The server is going to search the different networks for you. This can take quite a while, so be patient.</small>
 <?php
 include('/home/thesis-std/footer.php');
 ?>

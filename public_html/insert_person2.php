@@ -6,7 +6,7 @@ require_once('/home/thesis-std/scrape.php');
 require_once('/home/thesis-std/database.php');
 
 //Help mouseover:
-$mouseOverString = "Please choose one of the appropriate options. Do not forget the check the entries that are right for the person you seek. You can visit the found webpages by clicking on a name. You can also skip this database.";
+$mouseOverString = "Please choose one of the appropriate options. Do not forget the check if the entries you choose are right for the person you seek. You can visit the found webpages by clicking on a name. You can also skip this database.";
 include('tooltip.php');
 
 
@@ -65,14 +65,6 @@ if (already_in_database($firstname,$lastname,$con) && count($network_array) == c
 if ($urls == null) {        
     ?>
     <h2>The person you're looking for has not been found in the <?php echo ucwords($network_name)?> network.</h2>
-    <h3>Supply the right URL yourself</h3>
-    <form name="confirm" action="insert_person2_URLNotFound.php" method="post">
-        url: <input type="url" name="url"/>
-        <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
-        <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
-        <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
-        <input type="submit" value="confirm">
-    </form>
     <h3>Continue with the next network</h3>
     <form name="confirm" action="insert_person2.php" method="post">
         <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
@@ -98,7 +90,7 @@ if ($urls == null) {
                 echo "</th>";
             }
             ?>
-            <th>Select</th>
+            <th style="color:red">Select</th>
         </thead>
        
         <tbody>
@@ -108,7 +100,7 @@ if ($urls == null) {
                 $name = $result["name"];
                 $given_name = $firstname. " ".$lastname;
                 similar_text($given_name,$name,$procent);
-                if($procent > 70) {
+                if($procent > 70 || strpos($name,$given_name) !== false) {
                     echo "<tr>";
                     echo "<td>";
                     echo "<a href='".$url."' target='_blank'>".$name."</a>";
@@ -144,6 +136,16 @@ if ($urls == null) {
         </form>
     <?php
     }
+    ?>
+    <h3>Supply the right URL yourself</h3>
+    <form name="confirm" action="insert_person2_URLNotFound.php" method="post">
+        url: <input type="url" name="url"/>
+        <input type="hidden" value="<?php echo $firstname ?>" name="firstname" />
+        <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
+        <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
+        <input type="submit" value="confirm">
+    </form>
+    <?php
  } catch(Exception $e) {
      echo  "<script>";
      echo "window.alert('Something went wrong, try again later. ". $e."');";
