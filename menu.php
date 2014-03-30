@@ -11,6 +11,7 @@
     </head>
     <body>        
         <ul id="nav">
+            <li><a href="index.php">HOME</a></li>
             <li><a href="insert_person1.php">Insert Person</a></li>
             <li><a href="visualisation_db_select_parameters.php">visualise network</a></li>
             <li><a href="find_papers.php">Search papers</a></li>

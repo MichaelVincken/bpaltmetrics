@@ -17,8 +17,10 @@ $persons = retrieve_persons($con);
         ?>
     </select></br>
     <input type="submit" value="Select"/>
+    </br><small><a href = "manual_papers.pdf" target="_blank">Manual</a></small>
     
 
 <?php
+
 include('/home/thesis-std/footer.php');
 ?>

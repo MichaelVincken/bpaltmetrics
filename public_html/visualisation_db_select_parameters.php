@@ -23,5 +23,6 @@ include('tooltip.php');
     <input type="submit" value="Select"/>
     
 </form>
+</br><small><a href = "manual_metrics.pdf" target="_blank">Manual</a></small>
 
 <?php include('/home/thesis-std/footer.php') ?>
