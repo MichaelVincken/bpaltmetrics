@@ -305,7 +305,7 @@ class acm_scrape {
         $result_array["affiliation"] = implode(" and ",$affiliation_array);
         //Name
         $ret = $html->find('td[style] span.small-text strong');
-        $result_array["name"] = html_entity_decode($ret[0]->plaintext);
+        $result_array["name"] = html_entity_decode($ret[0]->plaintext,ENT_COMPAT,"UTF-8");
         //metrics:
         $ret = $html->find('table tbody tr td table tbody tr[valign] td table tbody tr td.small-text table tbody tr td.small-text');
         $result_array["publications"] = intval(str_replace(',','',$ret[3]->plaintext));
@@ -319,6 +319,7 @@ class acm_scrape {
         include_once("simple_html_dom.php");
         $lastname = explode(' ',$lastname);
     	$search_string = implode('+',$lastname);
+        $search_string = htmlentities($search_string);
         $url = "http://dl.acm.org/results.cfm?adv=1&COLL=DL&qrycnt=2215510&DL=ACM&Go.x=44&Go.y=12&peoplezone=Author&people=".$name."+".$search_string."&peoplehow=and";
         $html = file_get_html($url);
         $ret = $html->find('div.authors a');

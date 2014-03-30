@@ -71,10 +71,11 @@ if ($urls == null) {
         <input type="hidden" value="<?php echo $lastname ?>" name="lastname" />
                     
         <?php
-        array_shift($network_array); 
+        $network_array2 = $network_array;
+        array_shift($network_array2); 
         ?>
                     
-        <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
+        <input type="hidden" value="<?php echo urlencode(serialize($network_array2)) ?>" name="networks" />
         <input type="submit" value="confirm">
     </form>
     <?php
@@ -160,7 +161,7 @@ if ($urls == null) {
         array_shift($network_array); 
         ?>
         <input type="hidden" value="<?php echo urlencode(serialize($network_array)) ?>" name="networks" />
-        <input type="submit" value="confirm">
+        <input type="submit" value="skip">
     </form>
 
     <?php
