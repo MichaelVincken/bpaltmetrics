@@ -17,6 +17,13 @@ $metrics = unserialize(urldecode($_POST["metrics"]));
 $metric = ($_POST["metric"]);
 $include_missing=isset($_POST['include_missing']);
 ?>
+<style type='text/css'>
+    .tooltip:hover:after {content:"Some people might not have data for every network. If you check this, you include them in the visualisation. This results in incomplete lines.";}
+</style>
+
+
+
+
 <h3>Change parameter.</h3>
 <form action='visualisation_db_end.php' method='post'>
     <select name="metric">
@@ -26,7 +33,7 @@ $include_missing=isset($_POST['include_missing']);
         }
         ?>
     </select></br>
-    <input type="checkbox" name="include_missing">Include people with missing values.</br>
+    <input type="checkbox" name="include_missing"><div class='tooltip'>Include people with missing values.</div></br>
     <input type="hidden" value="<?php echo urlencode(serialize($metrics)) ?>" name="metrics" />
     <input type="submit" value="Select"/>
     

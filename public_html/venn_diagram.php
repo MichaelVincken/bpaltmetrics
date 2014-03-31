@@ -20,9 +20,15 @@
             ?>
         </tbody>
      </table>
+     <?php
+     if(count($networks)>2) {
+         ?>
      <div id="checkbox" float="right">
-         <label><input type="checkbox"> Alternative Visualisation.</label>
+         <label><input type="checkbox"> Alternative Visualisation. <a href="http://en.wikipedia.org/wiki/Multidimensional_scaling" target="_blank">MDS</a> vs Greed</label>
      </div>
+    <?php
+     }
+    ?>
 </div>
 
 

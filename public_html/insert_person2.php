@@ -1,3 +1,7 @@
+        <style type='text/css'>
+            #nav {opacity:0.4;}
+        </style>
+
 <?php
 $page_title = 'Insert Person';
         
@@ -59,6 +63,9 @@ if (already_in_database($firstname,$lastname,$con) && count($network_array) == c
     echo "You can however continue if you know a new network will be added for this person. </br>";
     ?>
     <a href = "insert_person1.php"> Go back and insert a new person </a>
+    </br>
+    <hr>
+    
     <?php    
 }  
     
@@ -80,18 +87,24 @@ if ($urls == null) {
     </form>
     <?php
 } else {
-    ?>        
+    ?> 
+    <img src="<?php echo ($network_name)?>_logo.png" alt="logo" height="75" width="150" style="float:left">       
     <h2><?php echo ucwords($network_name)?> network: Select the person you're looking for.</h2>
+    <h3><?php echo count($network_array)?> networks to go!</h3>
+    </br>
+    <hr>
     <table>
         <thead>
-            <?php                
+            <th style="color:red">Select</th>
+            
+            <?php 
+                           
             for ($i = 2; $i < count($column_array); $i++) {
                 echo "<th>";
                 echo ucwords(str_replace("_"," ", $column_array[$i]));
                 echo "</th>";
             }
             ?>
-            <th style="color:red">Select</th>
         </thead>
        
         <tbody>
@@ -103,12 +116,6 @@ if ($urls == null) {
                 similar_text($given_name,$name,$procent);
                 if($procent > 70 || strpos($name,$given_name) !== false) {
                     echo "<tr>";
-                    echo "<td>";
-                    echo "<a href='".$url."' target='_blank'>".$name."</a>";
-                    echo "</td>";
-                    for ($i = 3; $i < count($column_array); $i++) {
-                        echo "<td>".$result[$column_array[$i]]."</td>";                        
-                    }
                     ?>
                     
                     <td>
@@ -116,7 +123,7 @@ if ($urls == null) {
                             <?php 
                             $resultstring = urlencode(serialize($result));
                             ?>
-                            <input type="checkbox" name="persons[]" value="<?php echo $resultstring ?>" />
+                            <input type="checkbox" name="persons[]" value="<?php echo $resultstring ?>" checked />
                             <input type="hidden" name="urls[]" value="<?php echo $url ?>" />
                             <input type="hidden" name="firstnames[]" value="<?php echo $firstname ?>" />
                             <input type="hidden" name="lastnames[]" value="<?php echo $lastname ?>" />
@@ -124,8 +131,14 @@ if ($urls == null) {
                     </td>
                         
                         <?php
+                    
+                    echo "<td>";
+                    echo "<a href='".$url."' target='_blank'>".$name."</a>";
+                    echo "</td>";
+                    for ($i = 3; $i < count($column_array); $i++) {
+                        echo "<td>".$result[$column_array[$i]]."</td>";                        
+                    }
                 
-                        echo "</td>"; 
                         echo "</tr>";
                     }
                 }

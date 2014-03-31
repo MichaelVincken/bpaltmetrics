@@ -8,5 +8,7 @@ include('tooltip.php');
 
 ?>
 <a href = "insert_person1.php"> Insert a new person </a>
+<meta http-equiv="refresh" content="0;URL=visualisation_db_select_parameters.php" />
+
 
 <?php include('/home/thesis-std/footer.php')?>

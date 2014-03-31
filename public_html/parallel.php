@@ -7,6 +7,8 @@
     var m = [30, 10, 10, 50],
     w = 960 - m[1] - m[3],
     h = 500 - m[0] - m[2];
+    var color = d3.scale.category20();
+    
 
     var x = d3.scale.ordinal().rangePoints([0, w], 1),
     y = {},
@@ -54,7 +56,9 @@
         .selectAll("path")
         .data(proof)
         .enter().append("svg:path")
-        .attr("d", path);
+        .attr("d", path)
+        .style("stroke", function(d,i) { return color(i); });
+        
 
         // Add a group element for each dimension.
         var g = svg.selectAll(".dimension")

@@ -45,7 +45,7 @@ if(!isset($_POST["networks"])) {
         //We are done and advance to the next network.
         ?>
         Getting the papers from the different networks is done.
-        Please be patient, all papers will be compared to find matching ones accros networks.
+        Please be patient, all papers will be compared to find matching ones across networks.
         
         <form name="next_form" action="find_papers_compare.php" method="post">
             <input type="hidden" value="<?php echo urlencode(serialize($papers))?>" name="papers" />
