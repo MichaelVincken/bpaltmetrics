@@ -5,7 +5,7 @@ if(!isset($_POST["pId"])) {
 }
 
 $pId = $_POST["pId"];
-require("/home/thesis-std/database.php");
+require("/home/thesis-std/support/bpaltmetrics/database.php");
 delete_person($pId,$con);
 echo '<meta http-equiv="refresh" content="0;URL=admin.php?password=PassWord" />';
 

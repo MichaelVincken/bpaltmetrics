@@ -1,13 +1,14 @@
         <style type='text/css'>
-            #nav {opacity:0.4;}
+            #nav {opacity:0;}
         </style>
 
 <?php
+ini_set('display_errors', 1);
 $page_title = 'Insert Person';
         
-include_once('/home/thesis-std/menu.php');
-require_once('/home/thesis-std/scrape.php');
-require_once('/home/thesis-std/database.php');
+include_once('/home/thesis-std/support/bpaltmetrics/menu.php');
+require_once('/home/thesis-std/support/bpaltmetrics/scrape.php');
+require_once('/home/thesis-std/support/bpaltmetrics/database.php');
 
 //Help mouseover:
 $mouseOverString = "Please choose one of the appropriate options. Do not forget the check if the entries you choose are right for the person you seek. You can visit the found webpages by clicking on a name. You can also skip this database.";
@@ -146,7 +147,7 @@ if ($urls == null) {
                 ?>
             </tbody>
         </table>
-        <input type="submit" value="Add Selected">
+        <input type="submit" style="font-size: larger; color: red;" value="Add Selected">
         </form>
     <?php
     }
@@ -178,5 +179,5 @@ if ($urls == null) {
     </form>
 
     <?php
-    include('/home/thesis-std/footer.php');
+    include('/home/thesis-std/support/bpaltmetrics/footer.php');
     ?>

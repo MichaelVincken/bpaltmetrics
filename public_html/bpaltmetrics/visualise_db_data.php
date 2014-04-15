@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 
-require_once('/home/thesis-std/database.php');
+require_once('/home/thesis-std/support/bpaltmetrics/database.php');
 
 //ERROR if this page is loaded without first going trough the previous pages: redirect.
 if(!isset($_GET["metric"])) {
@@ -25,6 +25,15 @@ $array = parallel($con,$metric,$include_missing);
 $key = array_keys($array[0]);
 $key = $key[1];
 $array2 = array_msort($array, array($key => SORT_ASC));
+if(isset($_GET['persons'])) {
+    $persons = unserialize(urldecode($_GET['persons']));
+    foreach($array2 as $key => $element) {
+        if(!in_array($element['pId'],$persons)) {
+            unset($array2[$key]);
+        }
+    }
+}
+recursive_unset($array2,"pId");
 echo json_encode(array_Values($array2));
 function array_msort($array, $cols)
 {
@@ -49,6 +58,15 @@ function array_msort($array, $cols)
     }
     return $ret;
 
+}
+
+function recursive_unset(&$array, $unwanted_key) {
+    unset($array[$unwanted_key]);
+    foreach ($array as &$value) {
+        if (is_array($value)) {
+            recursive_unset($value, $unwanted_key);
+        }
+    }
 }
 
 

@@ -1,7 +1,7 @@
 <?php
 $page_title = "visualisation whole network: select parameter";
-include('/home/thesis-std/menu.php');
-include('/home/thesis-std/database.php');
+include('/home/thesis-std/support/bpaltmetrics/menu.php');
+include('/home/thesis-std/support/bpaltmetrics/database.php');
 //Help mouseover:
 $mouseOverString = "Select the parameter you want to compare. You can choose to include people who do not have data for every possible network.";
 include('tooltip.php');
@@ -31,4 +31,4 @@ include('tooltip.php');
 </form>
 </br><small><a href = "manual_metrics.pdf" target="_blank">Manual</a></small>
 
-<?php include('/home/thesis-std/footer.php') ?>
+<?php include('/home/thesis-std/support/bpaltmetrics/footer.php') ?>

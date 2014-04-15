@@ -45,8 +45,8 @@
     </head>
     <body>
         <?php
-        include('/home/thesis-std/login.php');
-        include('/home/thesis-std/menu.php');    
+        include('/home/thesis-std/support/bpaltmetrics/login.php');
+        include('/home/thesis-std/support/bpaltmetrics/menu.php');    
             //Help mouseover:
             $mouseOverString = "This page displays manually added people.";
             include('tooltip.php');

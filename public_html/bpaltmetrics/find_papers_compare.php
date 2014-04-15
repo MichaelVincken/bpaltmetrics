@@ -1,12 +1,11 @@
 <?php   
 $page_title = "find papers";
-include('/home/thesis-std/menu.php');
-require('/home/thesis-std/database.php');
-require('/home/thesis-std/scrape.php');
+include('/home/thesis-std/support/bpaltmetrics/menu.php');
+require('/home/thesis-std/support/bpaltmetrics/scrape.php');
 //Help mouseover:
 $mouseOverString = "Comparing all papers with the papers in the database to estabilish which of them are the same.";
 include('tooltip.php');
-
+set_time_limit(0);
 ?>
 
 <?php
@@ -15,9 +14,10 @@ if(!isset($_POST["pId"])) {
     echo '<meta http-equiv="refresh" content="0;URL=find_papers.php" />';
     exit;
 }
-$papers = unserialize(urldecode(($_POST["papers"])));
 //var_dump(count($papers["microsoft"]));
 $pId = ($_POST["pId"]);
+$papers = unserialize(urldecode($_POST["papers"]));
+
 $networks = array_keys($papers);
 $similar_papers = array();
 //Traverse trough all networks
@@ -59,19 +59,24 @@ for($i=0;$i<count($networks);$i++) {
 ?>
 
 Please be patient, all papers need to be inserted in the databse.
-<?php include("spinnner.php"); flush();?>
+<?php flush();
+
+?>
 
 <form name="auto_form" action="find_papers_end.php" method="post">
-    <input type="hidden" value="<?php echo urlencode(serialize($similar_papers))?>" name="papers" />
     <input type="hidden" value="<?php echo $pId?>" name ="pId" />
-        <!-- ><input type="submit" value="submit"/> -->
+    <input type="hidden" value="<?php echo urlencode(serialize($similar_papers))?>" name="papers" />
+    
+        <!-- <input type="submit" value="submit"/> -->
             
 </form>
 <script language = "JavaScript">
 document.auto_form.submit();
 </script> 
 
-<?php require_once('/home/thesis-std/footer.php');    ?>
+<?php require_once('/home/thesis-std/support/bpaltmetrics/footer.php');    
+
+?>
 
 
 

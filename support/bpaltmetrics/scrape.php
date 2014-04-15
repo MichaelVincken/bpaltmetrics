@@ -273,6 +273,8 @@ class citeseer_scrape {
     }
     
     public static function search_papers($url) {
+        ini_set('display_errors', 1);
+        
         include_once("simple_html_dom.php");
         $url = $url . "&list=full";
         $html = file_get_html($url);
@@ -344,6 +346,8 @@ class acm_scrape {
     }
     
     public static function search_papers($url) {
+        ini_set('display_errors', 1);
+        
         include_once("simple_html_dom.php");
         $url = $url."&perpage=all";
         $html = file_get_html($url);

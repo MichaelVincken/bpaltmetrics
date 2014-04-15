@@ -327,6 +327,7 @@ function parallel($con,$metric,$left_join) {
                 $array[$network] = $result[$network];
             }
         }
+        $array["pId"] = $result["pId"];
         array_push($return_array,$array);
     }
     

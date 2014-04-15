@@ -1,7 +1,7 @@
 <?php
 $page_title = "visualise papers";
-require('/home/thesis-std/menu.php');
-require('/home/thesis-std/database.php');
+require('/home/thesis-std/support/bpaltmetrics/menu.php');
+require('/home/thesis-std/support/bpaltmetrics/database.php');
 $pId = ($_POST["pId"]);
 //Help mouseover:
 $mouseOverString = "Choose the networks you want to compare. It is important to note that more than three networks is not ideal for the graphical representation (venn diagram).";
@@ -30,5 +30,5 @@ $networks = retrieve_networks_person($pId,$con);
 </form>
 
 <?php
-require('/home/thesis-std/footer.php');
+require('/home/thesis-std/support/bpaltmetrics/footer.php');
 ?>

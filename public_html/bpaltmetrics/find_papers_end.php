@@ -1,7 +1,7 @@
 <?php
 $page_title = "find papers: database.";
-require_once('/home/thesis-std/menu.php');
-require_once('/home/thesis-std/database.php');
+require_once('/home/thesis-std/support/bpaltmetrics/menu.php');
+require_once('/home/thesis-std/support/bpaltmetrics/database.php');
 //Help mouseover:
 $mouseOverString = "Inserting papers into the database. If this is done, you can go to any page you want.";
 include('tooltip.php');
@@ -12,8 +12,10 @@ if(!isset($_POST["pId"])) {
     exit;
 }
 
-$papers = unserialize(urldecode(($_POST["papers"])));
 $personId = ($_POST["pId"]);
+$papers = unserialize(urldecode($_POST["papers"]));
+var_dump(count($papers));
+
 //For every paper we found. $paper is an array of entrys for 1 paper.
 foreach($papers as $paper) {
     //For each paper_array, we first check if we have an existing paper or a new one.
@@ -64,7 +66,10 @@ foreach($papers as $paper) {
     }
 }
 echo "all papers where inserted in the database.";    
+echo '<meta http-equiv="refresh" content="0;URL=visualise_papers_select_parameter.php" />';
     
     
-require_once('/home/thesis-std/footer.php');    
+require_once('/home/thesis-std/support/bpaltmetrics/footer.php');   
+
+ 
 ?>

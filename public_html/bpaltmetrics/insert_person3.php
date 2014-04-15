@@ -1,7 +1,11 @@
+        <style type='text/css'>
+            #nav {opacity:0;}
+        </style>
+
 <?php
 $page_title = "Checkbox";
-require_once('/home/thesis-std/menu.php');
-require_once('/home/thesis-std/database.php');
+require_once('/home/thesis-std/support/bpaltmetrics/menu.php');
+require_once('/home/thesis-std/support/bpaltmetrics/database.php');
 
 //Help mouseover:
 $mouseOverString = "Busy entering data into database. You don't have to do anything.";
@@ -101,5 +105,5 @@ document.auto_form.submit();
 
 <?php
 
-include('/home/thesis-std/footer.php')
+include('/home/thesis-std/support/bpaltmetrics/footer.php')
 ?>

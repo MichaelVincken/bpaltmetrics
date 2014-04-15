@@ -1,7 +1,7 @@
 <?php
 $page_title = "Insert Person";
-include('/home/thesis-std/menu.php');
-include('/home/thesis-std/scrape.php');
+include('/home/thesis-std/support/bpaltmetrics/menu.php');
+include('/home/thesis-std/support/bpaltmetrics/scrape.php');
 //Help mouseover:
 $mouseOverString = "Inserting the right person with the given url into the database. You don't have to do anything.";
 include('tooltip.php');
@@ -59,4 +59,4 @@ document.frm.submit();
 </script>
 <tbody>
 
-<?php include("/home/thesis-std/footer.php")?>
+<?php include("/home/thesis-std/support/bpaltmetrics/footer.php")?>

@@ -1,8 +1,8 @@
 
 <?php
 $page_title = "Insert Person";
-include('/home/thesis-std/menu.php');
-include('/home/thesis-std/database.php');
+include('/home/thesis-std/support/bpaltmetrics/menu.php');
+include('/home/thesis-std/support/bpaltmetrics/database.php');
 //Help mouseover:
 $mouseOverString = "Give the name and family name of the person you seek.";
 include('tooltip.php');
@@ -20,5 +20,5 @@ $networks = urlencode(serialize(retrieve_networks($con)));
 <small>Note: The server is going to search the different networks for you. This can take quite a while, so be patient.</small>
 </br><small><a href = "manual_metrics.pdf" target="_blank">Manual</a></small>
 <?php
-include('/home/thesis-std/footer.php');
+include('/home/thesis-std/support/bpaltmetrics/footer.php');
 ?>

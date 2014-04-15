@@ -49,7 +49,7 @@ function getSets() {
 
 
 // get positions for each set. Initial layoutfunction.
-var sets = venn.venn(getSets(), getSetIntersections(), {layoutFunction: venn.classicMDSLayout});
+var sets = venn.venn(getSets(), getSetIntersections());
 
 // draw the diagram in the 'simple_example' div
 venn.drawD3Diagram(d3.select(".venn"), sets, 600, 600);
@@ -58,11 +58,13 @@ d3.select("input").on("change", change);
 
 function change() {
     if(this.checked) {
+        var sets = venn.venn(getSets(), getSetIntersections(),{layoutFunction: venn.classicMDSLayout});
+        venn.updateD3Diagram(d3.select(".venn"),sets,600,600);
+        
+    } else {
         var sets = venn.venn(getSets(), getSetIntersections());
         venn.updateD3Diagram(d3.select(".venn"),sets);
-    } else {
-        var sets = venn.venn(getSets(), getSetIntersections(),{layoutFunction: venn.classicMDSLayout});
-        venn.updateD3Diagram(d3.select(".venn"),sets);
+        
     }
 };
 
