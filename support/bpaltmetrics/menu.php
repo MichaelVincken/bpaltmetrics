@@ -13,7 +13,7 @@
         <ul id="nav">
             <li><a href="index.php">HOME</a></li>
             <li><a href="insert_person1.php">Insert Person</a></li>
-            <li><a href="visualisation_db_select_parameters.php">visualise network</a></li>
+            <li><a href="visualisation_db_select_parameters.php">Visualise Network</a></li>
             <li><a href="visualise_db_compare_select_persons.php">Compare People</a></li>
             <li><a href="visualise_papers_select_parameter.php">Visualise papers</a></li>
         </ul>

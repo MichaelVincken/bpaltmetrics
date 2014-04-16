@@ -15,7 +15,7 @@ include('/home/thesis-std/support/bpaltmetrics/menu.php');
           <p>There are many "citation networks" that aggregate information about researchers and their papers (eg. Google Scholar). However, it is difficult to compare them with each other. Our webapplication tries to make that easier. </p>
           <p> In the first part of our application you can insert yourself (or someone else) into the database. Afterwards you can compare the different networks with different metrics (eg. #citations). The visualization technique used here are “parallel coordinates”. </p>
 	<p> In the second part of our application you can search the different networks for papers of a researcher. This process automatically adds them to the database. Then you can visualise these papers. It shows you how the papers of a researcher are distributed across the different networks.</p>
-          
+          <center><img src="SequenceDiagramApp.png" alt="SD" height="240" widht="360"></center>
       </td>
   </tr>
   <tr>
